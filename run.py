@@ -17,8 +17,24 @@ def get_sales_figures():
 
     print('Please enter sales per day.')
     print('Sales data should be entered as 5 numbers, separated by commas.\n')
+    
+    while True:
+        sales_data = input('Enter your data here:')
+        
+        sales_numbers = sales_data.split(',')
+        
+        if validate_data(sales_numbers):
+            break
 
-    sales_data = input('Enter your data here:')
-    print(f'The data provide is {sales_data}')
+def validate_data(values):
+    try:
+        if len(values) != 5 or not all(value.isdigit() for value in values):
+            raise ValueError(
+                f'Please enter 5 whole numbers separated by commas, you entered {values}'
+            )
+        return True
+    except ValueError as e:
+        print(f'Invalid data: {e}, please try again.\n')
+        return False
 
 get_sales_figures()
