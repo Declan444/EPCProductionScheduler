@@ -27,6 +27,22 @@ def get_sales_figures():
             return sales_numbers
         else:
             print('Invalid data: Please try again.\n')
+
+def get_output_figures():
+    """function to get sales data from the sales/day sheet """
+    while True:
+        print('Please enter line output numbers per day.')
+        print('Line Output figures should be entered as 5 numbers, separated by commas.\n')
+    
+    
+        line_output_data = input('Enter your data here:')
+        output_numbers = line_output_data.split(',')
+        
+        if validate_data(output_numbers):
+            print('Numbers Validated', output_numbers)
+            return output_numbers
+        else:
+            print('Invalid data: Please try again.\n')
             
 
 def validate_data(values):
@@ -52,12 +68,24 @@ def update_sales_worksheet(data):
         print('Invalid data format: Unable to update the sales worksheet.\n')
 
 
+def update_line_worksheet(data):
+    print('Updating sales worksheet....\n')
+    if len(data) ==5 and all(isinstance(num, int) for num in data):
+        sales_worksheet = SHEET.worksheet('lineOutput')
+        sales_worksheet.append_row(data)
+        print('Sales worksheet updated successfully\n')
+    else:
+        print('Invalid data format: Unable to update the sales worksheet.\n')
+
+
 
 data = get_sales_figures()
 sales_data = [int(num) for num in data]
 update_sales_worksheet(sales_data)
 
-
+lineData = get_output_figures()
+line_data = [int(num) for num in lineData]
+update_line_worksheet(line_data)
 
 
 
