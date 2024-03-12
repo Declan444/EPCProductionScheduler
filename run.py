@@ -14,17 +14,20 @@ SHEET = GSPREAD_CLIENT.open('EPC_Production_Schedule')
 
 def get_sales_figures():
     """function to get sales data from the sales/day sheet """
-
-    print('Please enter sales per day.')
-    print('Sales data should be entered as 5 numbers, separated by commas.\n')
-    
     while True:
+        print('Please enter sales per day.')
+        print('Sales figures should be entered as 5 numbers, separated by commas.\n')
+    
+    
         sales_data = input('Enter your data here:')
-        
         sales_numbers = sales_data.split(',')
         
         if validate_data(sales_numbers):
-            break
+            print('Numbers Validated', sales_numbers)
+            return sales_numbers
+        else:
+            print('Invalid data: Please try again.\n')
+            
 
 def validate_data(values):
     try:
@@ -37,4 +40,25 @@ def validate_data(values):
         print(f'Invalid data: {e}, please try again.\n')
         return False
 
-get_sales_figures()
+
+
+def update_sales_worksheet(data):
+    print('Updating sales worksheet....\n')
+    if len(data) ==5 and all(isinstance(num, int) for num in data):
+        sales_worksheet = SHEET.worksheet('salesPerDay')
+        sales_worksheet.append_row(data)
+        print('Sales worksheet updated successfully\n')
+    else:
+        print('Invalid data format: Unable to update the sales worksheet.\n')
+
+
+
+data = get_sales_figures()
+sales_data = [int(num) for num in data]
+update_sales_worksheet(sales_data)
+
+
+
+
+
+
