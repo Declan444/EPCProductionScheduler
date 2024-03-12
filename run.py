@@ -12,6 +12,13 @@ GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('EPC_Production_Schedule')
 
 
-sales =SHEET.worksheet('Sales/Day')
-data = sales.get_all_values()
-print(data)
+def get_sales_figures():
+    """function to get sales data from the sales/day sheet """
+
+    print('Please enter sales per day.')
+    print('Sales data should be entered as 5 numbers, separated by commas.\n')
+
+    sales_data = input('Enter your data here:')
+    print(f'The data provide is {sales_data}')
+
+get_sales_figures()
