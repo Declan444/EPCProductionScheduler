@@ -43,7 +43,23 @@ def get_output_figures():
             return output_numbers
         else:
             print('Invalid data: Please try again.\n')
-            
+
+def get_manufactured_figures():
+    """function to get manufactured volume data from the sales/day sheet """
+    while True:
+        print('Please enter Manufactured Volume .')
+        print('Manufactured Volume figures should be entered as 5 numbers, separated by commas. If nothing was manufactured, enter zero.\n')
+    
+    
+        manufactured_volume_data = input('Enter your data here:')
+        volume_numbers = manufactured_volume_data.split(',')
+        
+        if validate_data(volume_numbers):
+            print('Numbers Validated', volume_numbers)
+            return volume_numbers
+        else:
+            print('Invalid data: Please try again.\n')
+                  
 
 def validate_data(values):
     try:
@@ -71,11 +87,22 @@ def update_sales_worksheet(data):
 def update_line_worksheet(data):
     print('Updating sales worksheet....\n')
     if len(data) ==5 and all(isinstance(num, int) for num in data):
-        sales_worksheet = SHEET.worksheet('lineOutput')
-        sales_worksheet.append_row(data)
-        print('Sales worksheet updated successfully\n')
+        line_output_worksheet = SHEET.worksheet('lineOutput')
+        line_output_worksheet.append_row(data)
+        print('Line Output worksheet updated successfully\n')
     else:
-        print('Invalid data format: Unable to update the sales worksheet.\n')
+        print('Invalid data format: Unable to update the line Output worksheet.\n')
+
+
+def update_manufacturing_worksheet(data):
+    print('Updating manufactured volume worksheet....\n')
+    if len(data) ==5 and all(isinstance(num, int) for num in data):
+        manufactured_worksheet = SHEET.worksheet('manufacturedVolume')
+        manufactured_worksheet.append_row(data)
+        print('Manufactured Volume worksheet updated successfully\n')
+    else:
+        print('Invalid data format: Unable to update the Manufactured Volume worksheet.\n')
+
 
 
 
@@ -87,6 +114,9 @@ lineData = get_output_figures()
 line_data = [int(num) for num in lineData]
 update_line_worksheet(line_data)
 
+manufacturedData = get_manufactured_figures()
+manufactured_data = [int(num) for num in manufacturedData]
+update_manufacturing_worksheet(manufactured_data)
 
 
 
