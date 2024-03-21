@@ -163,8 +163,10 @@ def finished_stock_requirement():
     """
     available_stock_worksheet = SHEET.worksheet('AvailableStockUnits').get_all_values()
     sales_per_day_worksheet = SHEET.worksheet('salesPerDay').get_all_values()
+    stock_days_on_hand_worksheet = SHEET.worksheet('AvailableStockDays')
     # Get last line of available stock
     last_line_available_stock = available_stock_worksheet[-1]
+    last_line_available_stock = [int(value) for value in last_line_available_stock]
     
     # Last 5 days sales
     last_five_rows_sales = sales_per_day_worksheet[-5:]
@@ -175,10 +177,15 @@ def finished_stock_requirement():
         for i, value in enumerate(row):
             column_totals[i] += int(value)
     # Get the average for the last 5 days 
-    average_sales_for_last_five_days_sales = [total / 5 for total in column_totals]     
+    average_sales_for_last_five_days_sales = [total / 5 for total in column_totals] 
 
-    print('Last 5 days of sales:')
-    print(last_five_rows_sales)
+    # Get the number of days stock available
+    days_of_available_stock = [round(last_line_available_stock[i] / average_sales_for_last_five_days_sales[i]) for i in range(len(last_line_available_stock))]   
+
+    print('Updating Available Stock Days worksheet....\n')
+    # Update the Available Stock Days worksheet    
+    stock_days_on_hand_worksheet.append_row(days_of_available_stock)
+    print('Available Stock Days worksheet updated successfully\n')
 
     print('Average sales for the last 5 days:')
     print(average_sales_for_last_five_days_sales)
@@ -186,9 +193,12 @@ def finished_stock_requirement():
     print('Last line of available Stock from AvailableStockUnits Sheet:')
     print(last_line_available_stock)
 
+    print('Number of days available stock:')
+    print(days_of_available_stock)
+
     
 
-    print('Total for last 5 days of sales:', column_totals)
+    
     
 
 
