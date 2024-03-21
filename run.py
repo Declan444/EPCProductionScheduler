@@ -14,9 +14,9 @@ SHEET = GSPREAD_CLIENT.open('EPC_Production_Schedule')
 
 
 def get_sales_figures():
-    """function to get sales data from the sales/day sheet """
+    """function to get sales data for the salesPerDay sheet """
     while True:
-        print('Please enter sales per day.')
+        print('Please enter sales per day for each line.')
         print('Sales figures should be entered as 5 numbers, separated by commas.\n')
     
     
@@ -29,8 +29,8 @@ def get_sales_figures():
         else:
             print('Invalid data: Please try again.\n')
 
-def get_output_figures():
-    """function to get sales data from the sales sheet """
+def get_lineOutput_figures():
+    """function to unit output data for the lineOutput sheet """
     while True:
         print('Please enter line output numbers per day.')
         print('Line Output figures should be entered as 5 numbers, separated by commas.\n')
@@ -124,15 +124,16 @@ def available_stock():
     # To get the last row from the "lineOutput" worksheet
     last_line_output_row = line_output_worksheet.get_all_values()[-1]
 
-    # If there is data in the last row
+    # If there is data in the last row, convert the values to integers
     if last_line_output_row:
-        # To convert the values to integers
+        
         last_line_output_values = [int(num) for num in last_line_output_row]
 
         # To get the last row from the "AvailableStockUnits" worksheet
         last_available_stock_row = available_stock_worksheet.get_all_values()[-1]
 
         # When there is data in the last row of the sheet, then add the corresponding values
+        #w3schools.com for the use of zip() to accumulate number.
         if last_available_stock_row:
             last_available_stock_values = [int(num) for num in last_available_stock_row]
             new_row_values = [str(output + stock) for output, stock in zip(last_line_output_values, last_available_stock_values)]
@@ -146,7 +147,7 @@ def available_stock():
         # If there is data in the last sales row, subtract the sales values
         if last_sales_row:
             last_sales_values = [int(num) for num in last_sales_row]
-            # Make sure that both data types are integers
+            
             new_row_values = [str(int(stock) - sales) for stock, sales in zip(new_row_values, last_sales_values)]
 
        
@@ -156,7 +157,45 @@ def available_stock():
         print('Not enough data in the "lineOutput" sheet.')
    
     
+def finished_stock_requirement(): 
+    """
+    To calculate the amount of finished stock that is required to keep ahead of demand
+    """
+    available_stock_worksheet = SHEET.worksheet('AvailableStockUnits').get_all_values()
+    sales_per_day_worksheet = SHEET.worksheet('salesPerDay').get_all_values()
+    # Get last line of available stock
+    last_line_available_stock = available_stock_worksheet[-1]
     
+    # Last 5 days sales
+    last_five_rows_sales = sales_per_day_worksheet[-5:]
+    # Add the last five days sales together, column totals
+    column_totals = [0] * len(last_five_rows_sales[0])
+
+    for row in last_five_rows_sales:
+        for i, value in enumerate(row):
+            column_totals[i] += int(value)
+    # Get the average for the last 5 days 
+    average_sales_for_last_five_days_sales = [total / 5 for total in column_totals]     
+
+    print('Last 5 days of sales:')
+    print(last_five_rows_sales)
+
+    print('Average sales for the last 5 days:')
+    print(average_sales_for_last_five_days_sales)
+
+    print('Last line of available Stock from AvailableStockUnits Sheet:')
+    print(last_line_available_stock)
+
+    
+
+    print('Total for last 5 days of sales:', column_totals)
+    
+
+
+
+
+
+     
 
 
 
@@ -167,7 +206,7 @@ def main():
     sales_data = [int(num) for num in data]
     update_sales_worksheet(sales_data)
 
-    lineData = get_output_figures()
+    lineData = get_lineOutput_figures()
     line_data = [int(num) for num in lineData]
     update_line_worksheet(line_data)
 
@@ -176,6 +215,7 @@ def main():
     update_manufacturing_worksheet(manufactured_data)
 
     available_stock()
+    finished_stock_requirement()
 
 print('Welcome to the EPC Production Schedule \n')
 main()
