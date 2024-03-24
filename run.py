@@ -1,6 +1,8 @@
 import gspread
+import matplotlib.pyplot as plt
 from google.oauth2.service_account import Credentials
-from pprint import pprint
+
+
 SCOPE = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive.file",
@@ -157,7 +159,7 @@ def available_stock():
         print('Not enough data in the "lineOutput" sheet.')
    
     
-def finished_stock_requirement(): 
+def days_of_available_stock(): 
     """
     To calculate the amount of finished stock that is required to keep ahead of demand
     """
@@ -166,6 +168,7 @@ def finished_stock_requirement():
     stock_days_on_hand_worksheet = SHEET.worksheet('AvailableStockDays')
     # Get last line of available stock
     last_line_available_stock = available_stock_worksheet[-1]
+    #Convert to an integer
     last_line_available_stock = [int(value) for value in last_line_available_stock]
     
     # Last 5 days sales
@@ -187,28 +190,30 @@ def finished_stock_requirement():
     stock_days_on_hand_worksheet.append_row(days_of_available_stock)
     print('Available Stock Days worksheet updated successfully\n')
 
-    print('Average sales for the last 5 days:')
-    print(average_sales_for_last_five_days_sales)
-
-    print('Last line of available Stock from AvailableStockUnits Sheet:')
-    print(last_line_available_stock)
+    
 
     print('Number of days available stock:')
     print(days_of_available_stock)
 
-    
+# Testing to see if metplotlib will work when deployed to heroku
+# Data
+values = [10, 20, 30, 40, 50]
+labels = [str(val) for val in values]
+
+# Create bar chart
+plt.figure(figsize=(8, 6))
+plt.bar(labels, values, color='blue')
+
+# Add labels and title
+plt.xlabel('Values')
+plt.ylabel('Counts')
+plt.title('Bar Chart')
+
+# Display the plot
+plt.show()
+
 
     
-    
-
-
-
-
-
-     
-
-
-
 
 
 def main():
@@ -225,7 +230,9 @@ def main():
     update_manufacturing_worksheet(manufactured_data)
 
     available_stock()
-    finished_stock_requirement()
+    days_of_available_stock()
+
+    
 
 print('Welcome to the EPC Production Schedule \n')
 main()
