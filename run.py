@@ -195,22 +195,7 @@ def days_of_available_stock():
     print('Number of days available stock:')
     print(days_of_available_stock)
 
-# Testing to see if metplotlib will work when deployed to heroku
-# Data
-values = [10, 20, 30, 40, 50]
-labels = [str(val) for val in values]
 
-# Create bar chart
-plt.figure(figsize=(8, 6))
-plt.bar(labels, values, color='blue')
-
-# Add labels and title
-plt.xlabel('Values')
-plt.ylabel('Counts')
-plt.title('Bar Chart')
-
-# Display the plot
-plt.show()
 
 
     
