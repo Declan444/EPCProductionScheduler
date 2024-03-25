@@ -211,24 +211,41 @@ def days_of_available_stock():
 x = [1, 2, 3, 4, 5]
 y = [2, 3, 5, 7, 11]"""
 
+data = [("line1", 20), ("line2", 30), ("line3", 40)]
 
-data = [('line1', 20), ('line2', 30), ('line3', 40)]
 max_value = max(count for _, count in data)
 increment = max_value / 25
+
 longest_label_length = max(len(label) for label, _ in data)
 
+output_lines = []
 for label, count in data:
-
+    
     bar_chunks, remainder = divmod(int(count * 8 / increment), 8)
-    bar = '█'* bar_chunks
+
+    
+    bar = '█' * bar_chunks
+
+   
     if remainder > 0:
         bar += chr(ord('█') + (8 - remainder))
 
-    bar = bar or '¦ '
+   
+    bar = bar or '▏'
 
-    print(f'{label.rjust(longest_label_length)} ▏ {count:#4d} {bar}')
-print(f'{"Days".rjust(longest_label_length)}')
+    output_lines.append(f'{label.rjust(longest_label_length)} ▏ {count:#4d} {bar}')
 
+
+output_lines.append(f'{"Days".rjust(longest_label_length)}')
+
+
+with open('graph_output.txt', 'w', encoding='utf-8') as file:
+    for line in output_lines:
+        file.write(line + '\n')
+
+
+with open('graph_output.txt', 'r', encoding='utf-8') as file:
+    print(file.read())
 
     
 
@@ -249,7 +266,7 @@ def main():
 
     available_stock()
     days_of_available_stock()
-    simple_graph(x,y)
+    #simple_graph(x,y)
 
       
 
