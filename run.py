@@ -22,7 +22,7 @@ def get_sales_figures():
         print('Sales figures should be entered as 5 numbers, separated by commas.\n')
     
     
-        sales_data = input('Enter your data here:')
+        sales_data = input('Enter your data here:\n')
         sales_numbers = sales_data.split(',')
         
         if validate_data(sales_numbers):
@@ -38,7 +38,7 @@ def get_lineOutput_figures():
         print('Line Output figures should be entered as 5 numbers, separated by commas.\n')
     
     
-        line_output_data = input('Enter your data here:')
+        line_output_data = input('Enter your data here:\n')
         output_numbers = line_output_data.split(',')
         # To check the validate function against the data
         if validate_data(output_numbers):
@@ -54,7 +54,7 @@ def get_manufactured_figures():
         print('Manufactured Volume figures should be entered as 5 numbers, separated by commas. If nothing was manufactured, enter zero.\n')
     
     
-        manufactured_volume_data = input('Enter your data here:')
+        manufactured_volume_data = input('Enter your data here:\n')
         volume_numbers = manufactured_volume_data.split(',')
         
         if validate_data(volume_numbers):
