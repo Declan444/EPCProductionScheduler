@@ -196,7 +196,7 @@ def days_of_available_stock():
     print(days_of_available_stock)
 
 
-def simple_graph(x,y):
+"""def simple_graph(x,y):
 
 
     # Create the plot
@@ -209,11 +209,25 @@ def simple_graph(x,y):
     plt.show()
 
 x = [1, 2, 3, 4, 5]
-y = [2, 3, 5, 7, 11]
+y = [2, 3, 5, 7, 11]"""
 
 
+data = [('line1', 20), ('line2', 30), ('line3', 40)]
+max_value = max(count for _, count in data)
+increment = max_value / 25
+longest_label_length = max(len(label) for label, _ in data)
 
+for label, count in data:
 
+    bar_chunks, remainder = divmod(int(count * 8 / increment), 8)
+    bar = '█'* bar_chunks
+    if remainder > 0:
+        bar += chr(ord('█') + (8 - remainder))
+
+    bar = bar or '¦ '
+
+    print(f'{label.rjust(longest_label_length)} ▏ {count:#4d} {bar}')
+print(f'{"Days".rjust(longest_label_length)}')
 
 
     
