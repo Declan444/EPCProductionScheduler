@@ -196,12 +196,31 @@ def days_of_available_stock():
     print(days_of_available_stock)
 
 
+def simple_graph(x,y):
+
+
+    # Create the plot
+    plt.plot(x, y)
+
+    # Add labels and title
+    plt.xlabel('Line')
+    plt.ylabel('Days Stock')
+    plt.title('Days Stock On Hand')
+    plt.show()
+
+x = [1, 2, 3, 4, 5]
+y = [2, 3, 5, 7, 11]
+
+
+
+
 
 
     
 
 
 def main():
+    
     data = get_sales_figures()
     sales_data = [int(num) for num in data]
     update_sales_worksheet(sales_data)
@@ -216,8 +235,9 @@ def main():
 
     available_stock()
     days_of_available_stock()
+    simple_graph(x,y)
 
-    
+      
 
 print('Welcome to the EPC Production Schedule \n')
 main()
