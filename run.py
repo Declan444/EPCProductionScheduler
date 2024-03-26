@@ -155,6 +155,7 @@ def available_stock():
        
         available_stock_worksheet.append_row(new_row_values)
         print('Available Stock updated successfully\n')
+        print(new_row_values)
     else:
         print('Not enough data in the "lineOutput" sheet.')
    
@@ -191,10 +192,15 @@ def days_of_available_stock():
     print('Available Stock Days worksheet updated successfully\n')
     
     
-
+   
     print('Number of days available stock:')
     print(days_of_available_stock)
     return days_of_available_stock
+
+
+
+
+
 
 
 
@@ -209,6 +215,7 @@ def main():
     data = get_sales_figures()
     sales_data = [int(num) for num in data]
     update_sales_worksheet(sales_data)
+    input('Press enter to continue....\n')
 
     lineData = get_lineOutput_figures()
     line_data = [int(num) for num in lineData]
@@ -219,12 +226,20 @@ def main():
     update_manufacturing_worksheet(manufactured_data)
 
     available_stock()
+    
     days_of_available_stock()
     #simple_graph(x,y)
 
-      
-
+ 
+ 
+BOLD = "\033[1m"
+BIGGER = "\033[32m"
+RESET = "\033[0m"
+text = "Welcome to EPC Production Scheduler"
+formatted_text = f"{BIGGER}{BOLD}{text}{RESET}"
+print(formatted_text)
 print('Welcome to the EPC Production Schedule \n')
+input('Press enter to continue...')
 main()
 
 # data is the output data from days_of_available stock
