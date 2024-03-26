@@ -189,63 +189,17 @@ def days_of_available_stock():
     # Update the Available Stock Days worksheet    
     stock_days_on_hand_worksheet.append_row(days_of_available_stock)
     print('Available Stock Days worksheet updated successfully\n')
-
+    
     
 
     print('Number of days available stock:')
     print(days_of_available_stock)
+    return days_of_available_stock
 
 
-"""def simple_graph(x,y):
 
 
-    # Create the plot
-    plt.plot(x, y)
 
-    # Add labels and title
-    plt.xlabel('Line')
-    plt.ylabel('Days Stock')
-    plt.title('Days Stock On Hand')
-    plt.show()
-
-x = [1, 2, 3, 4, 5]
-y = [2, 3, 5, 7, 11]"""
-
-data = [("line1", 20), ("line2", 30), ("line3", 40)]
-
-max_value = max(count for _, count in data)
-increment = max_value / 25
-
-longest_label_length = max(len(label) for label, _ in data)
-
-output_lines = []
-for label, count in data:
-    
-    bar_chunks, remainder = divmod(int(count * 8 / increment), 8)
-
-    
-    bar = '█' * bar_chunks
-
-   
-    if remainder > 0:
-        bar += chr(ord('█') + (8 - remainder))
-
-   
-    bar = bar or '▏'
-
-    output_lines.append(f'{label.rjust(longest_label_length)} ▏ {count:#4d} {bar}')
-
-
-output_lines.append(f'{"Days".rjust(longest_label_length)}')
-
-
-with open('graph_output.txt', 'w', encoding='utf-8') as file:
-    for line in output_lines:
-        file.write(line + '\n')
-
-
-with open('graph_output.txt', 'r', encoding='utf-8') as file:
-    print(file.read())
 
     
 
@@ -272,4 +226,43 @@ def main():
 
 print('Welcome to the EPC Production Schedule \n')
 main()
+
+# data is the output data from days_of_available stock
+data = days_of_available_stock()
+#find the max data in the list
+max_value = max(data)
+
+increment = max_value / 25
+
+longest_label_length = len('days')
+#empty array
+output_lines = []
+#for loop
+for idx, count in enumerate(data):
+    #work out the bar chart
+    bar_chunks, remainder = divmod(int(count * 8 / increment), 8)
+
+    #create the bar
+    bar = '█' * bar_chunks
+
+   #give the remainder if the bar is not a full increment
+    if remainder > 0:
+        bar += chr(ord('█') + (8 - remainder))
+
+   #use if the bar is empty
+    bar = bar or '▏'
+    #label for lines
+    output_lines.append(f'Production line{idx+1} ▏ {count:#4d} {bar}')
+
+#label for y-axis
+output_lines.append(f'{"Days of Available Stock".rjust(longest_label_length)}')
+
+# write the output lines to a text file so will work when deployed to heroku
+with open('graph_output.txt', 'w', encoding='utf-8') as file:
+    for line in output_lines:
+        file.write(line + '\n')
+
+#read and print the file so it shows when deployed
+with open('graph_output.txt', 'r', encoding='utf-8') as file:
+    print(file.read())
 
