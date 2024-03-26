@@ -229,16 +229,27 @@ def main():
     
     days_of_available_stock()
     #simple_graph(x,y)
+    #https://code-maven.com/ansi-command-line-colors-with-python
+black   = "\033[0;30m"
+red     = "\033[0;31m"
+green   = "\033[0;32m"
+yellow  = "\033[0;33m"
+white   = "\033[0;37m"
+nocolor = "\033[0m"
+bold = '\033[1m'
+underline = '\033[4m'
+background_color = '\033[105m'
+clearscreen = '\033[H\033[J]'
+bigger = '\033[4;1m'
+reset = '\033[0m'
+text = 'Welcome to the EPC Production Schedule \n'
 
- 
- 
-BOLD = "\033[1m"
-BIGGER = "\033[32m"
-RESET = "\033[0m"
-text = "Welcome to EPC Production Scheduler"
-formatted_text = f"{BIGGER}{BOLD}{text}{RESET}"
+
+
+formatted_text = f'{bigger}{bold}{red}{underline}{text}{reset}'
 print(formatted_text)
-print('Welcome to the EPC Production Schedule \n')
+print(white)
+
 input('Press enter to continue...')
 main()
 
