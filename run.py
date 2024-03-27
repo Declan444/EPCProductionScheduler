@@ -230,7 +230,17 @@ def available_production_stock():
     print('Available Manufactured Stock:')
     print(accumulated_manufactured_stock)
 
-    
+    #Calculate available production stock. Accumulated stock minus line output stock
+
+    available_manufactured_stock = [a - b for a, b in zip(accumulated_manufactured_stock, lineOutput_numbers)]
+    print('Available Manufactured Stock:')
+    print(available_manufactured_stock)
+    print('Updating AvailableManufacturedVolume worksheet.....')
+    available_manufactured_numbers = SHEET.worksheet('availableManufacturedVolume')
+    available_manufactured_numbers.append_row(available_manufactured_stock)
+    print('AvailableManufacturedVolume worksheet updated successfully')
+
+
 
     
     
