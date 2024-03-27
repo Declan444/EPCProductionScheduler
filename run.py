@@ -44,7 +44,7 @@ def get_sales_figures():
             print('Invalid data: Please try again.\n')
 
 def get_lineOutput_figures():
-    """function to unit output data for the lineOutput sheet """
+    """function to get the unit output data for the lineOutput sheet """
     while True:
         print('Please enter line output numbers per day.')
         print('Line Output figures should be entered as 5 numbers, separated by commas.\n')
@@ -60,7 +60,7 @@ def get_lineOutput_figures():
             print('Invalid data: Please try again.\n')
 
 def get_manufactured_figures():
-    """function to get manufactured volume data from the sales sheet """
+    """function to get the manufactured volume data for the manufacturedVolume sheet """
     while True:
         print('Please enter Manufactured Volume .')
         print('Manufactured Volume figures should be entered as 5 numbers, separated by commas. If nothing was manufactured, enter zero.\n')
@@ -106,7 +106,7 @@ def update_sales_worksheet(data):
 
 
 def update_line_worksheet(data):
-    print('Updating sales worksheet....\n')
+    print('Updating line output worksheet....\n')
     if len(data) ==5 and all(isinstance(num, int) for num in data):
         line_output_worksheet = SHEET.worksheet('lineOutput')
         line_output_worksheet.append_row(data)
@@ -212,11 +212,26 @@ def days_of_available_stock():
 
 
 
-def production_requirement():
+def available_production_stock():
+    #Get the manufacturedVolume sheet
     manufactured_stock = SHEET.worksheet('manufacturedVolume').get_all_values()
-    manufactured_stock_last_row = manufactured_stock[-1]
-    print('Manufactured Stock:')
-    print(manufactured_stock_last_row)
+    lineOuput_stock = SHEET.worksheet('lineOutput').get_all_values()
+    #get the last row from the line output sheet
+    lineOutput_numbers = [int(num) for num in lineOuput_stock[-1]]
+    print('LineOutput Last Row Numbers:')
+    print(lineOutput_numbers)
+
+    #Get the last 2 rows from this sheet
+    manufactured_stock_last_two_rows = [list(map(int, row)) for row in manufactured_stock[-2:]]
+
+    
+    #get the accumulated number of the last two rows of the manufactured stock
+    accumulated_manufactured_stock = [sum(values) for values in zip(*manufactured_stock_last_two_rows)]
+    print('Available Manufactured Stock:')
+    print(accumulated_manufactured_stock)
+
+    
+
     
     
 
@@ -247,7 +262,7 @@ def main():
     available_stock()
     
     days_of_available_stock()
-    production_requirement()
+    available_production_stock()
 
     #simple_graph(x,y)
     #https://code-maven.com/ansi-command-line-colors-with-python
