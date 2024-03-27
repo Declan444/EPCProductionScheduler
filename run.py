@@ -1,5 +1,5 @@
 import gspread
-import matplotlib.pyplot as plt
+
 from google.oauth2.service_account import Credentials
 
 
@@ -14,6 +14,18 @@ SCOPED_CREDS = CREDS.with_scopes(SCOPE)
 GSPREAD_CLIENT = gspread.authorize(SCOPED_CREDS)
 SHEET = GSPREAD_CLIENT.open('EPC_Production_Schedule')
 
+black   = "\033[0;30m"
+red     = "\033[0;31m"
+green   = "\033[0;32m"
+yellow  = "\033[0;33m"
+white   = "\033[0;37m"
+nocolor = "\033[0m"
+bold = '\033[1m'
+underline = '\033[4m'
+background_color = '\033[105m'
+clearscreen = '\033[H\033[J]'
+bigger = '\033[4;1m'
+reset = '\033[0m'
 
 def get_sales_figures():
     """function to get sales data for the salesPerDay sheet """
@@ -192,14 +204,21 @@ def days_of_available_stock():
     print('Available Stock Days worksheet updated successfully\n')
     
     
-   
+    print(green)
     print('Number of days available stock:')
+    print(white)
     print(days_of_available_stock)
     return days_of_available_stock
 
 
 
-
+def production_requirement():
+    manufactured_stock = SHEET.worksheet('manufacturedVolume').get_all_values()
+    manufactured_stock_last_row = manufactured_stock[-1]
+    print('Manufactured Stock:')
+    print(manufactured_stock_last_row)
+    
+    
 
 
 
@@ -228,20 +247,11 @@ def main():
     available_stock()
     
     days_of_available_stock()
+    production_requirement()
+
     #simple_graph(x,y)
     #https://code-maven.com/ansi-command-line-colors-with-python
-black   = "\033[0;30m"
-red     = "\033[0;31m"
-green   = "\033[0;32m"
-yellow  = "\033[0;33m"
-white   = "\033[0;37m"
-nocolor = "\033[0m"
-bold = '\033[1m'
-underline = '\033[4m'
-background_color = '\033[105m'
-clearscreen = '\033[H\033[J]'
-bigger = '\033[4;1m'
-reset = '\033[0m'
+
 text = 'Welcome to the EPC Production Schedule \n'
 
 
