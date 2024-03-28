@@ -235,6 +235,8 @@ def available_production_stock():
     available_manufactured_stock = [a - b for a, b in zip(accumulated_manufactured_stock, lineOutput_numbers)]
     print('Available Manufactured Stock minus lineOutput numbers:')
     print(available_manufactured_stock)
+    
+
     print('Updating AvailableManufacturedVolume worksheet.....')
     available_manufactured_numbers = SHEET.worksheet('availableManufacturedVolume')
     available_manufactured_numbers.append_row(available_manufactured_stock)
@@ -243,6 +245,7 @@ def available_production_stock():
 
 def production_requirement():
     sales_per_day_worksheet = SHEET.worksheet('salesPerDay').get_all_values()
+    available_manufactured_volume = [int(value) for value in SHEET.worksheet('availableManufacturedVolume').get_all_values()[-1]]
     
      # Last 10 days sales
     last_ten_rows_sales = sales_per_day_worksheet[-10:]
@@ -256,6 +259,9 @@ def production_requirement():
     average_sales_for_last_ten_days_sales = [int(total / 10) for total in column_totals] 
     print('Sales in last 10 rows from the sales sheet')
     print(average_sales_for_last_ten_days_sales)
+
+    print('Last row in available Manufactured Volume')
+    print(available_manufactured_volume)
     
     
 
