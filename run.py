@@ -221,7 +221,7 @@ def available_production_stock():
     print('LineOutput Last Row Numbers:')
     print(lineOutput_numbers)
 
-    #Get the last 2 rows from this sheet
+    #Get the last 2 rows from this sheet 
     manufactured_stock_last_two_rows = [list(map(int, row)) for row in manufactured_stock[-2:]]
 
     
@@ -233,13 +233,33 @@ def available_production_stock():
     #Calculate available production stock. Accumulated stock minus line output stock
 
     available_manufactured_stock = [a - b for a, b in zip(accumulated_manufactured_stock, lineOutput_numbers)]
-    print('Available Manufactured Stock:')
+    print('Available Manufactured Stock minus lineOutput numbers:')
     print(available_manufactured_stock)
     print('Updating AvailableManufacturedVolume worksheet.....')
     available_manufactured_numbers = SHEET.worksheet('availableManufacturedVolume')
     available_manufactured_numbers.append_row(available_manufactured_stock)
     print('AvailableManufacturedVolume worksheet updated successfully')
 
+
+def production_requirement():
+    sales_per_day_worksheet = SHEET.worksheet('salesPerDay').get_all_values()
+    
+     # Last 10 days sales
+    last_ten_rows_sales = sales_per_day_worksheet[-10:]
+    # Add the last ten days sales together, column totals
+    column_totals = [0] * len(last_ten_rows_sales[0])
+
+    for row in last_ten_rows_sales:
+        for i, value in enumerate(row):
+            column_totals[i] += int(value)
+    # Get the average for the last 10 days 
+    average_sales_for_last_ten_days_sales = [int(total / 10) for total in column_totals] 
+    print('Sales in last 10 rows from the sales sheet')
+    print(average_sales_for_last_ten_days_sales)
+    
+    
+
+    
 
 
     
@@ -273,6 +293,7 @@ def main():
     
     days_of_available_stock()
     available_production_stock()
+    production_requirement()
 
     #simple_graph(x,y)
     #https://code-maven.com/ansi-command-line-colors-with-python
