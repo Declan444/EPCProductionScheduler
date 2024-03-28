@@ -240,12 +240,15 @@ def available_production_stock():
     print('Updating AvailableManufacturedVolume worksheet.....')
     available_manufactured_numbers = SHEET.worksheet('availableManufacturedVolume')
     available_manufactured_numbers.append_row(available_manufactured_stock)
+
+
     print('AvailableManufacturedVolume worksheet updated successfully')
 
 
 def production_requirement():
     sales_per_day_worksheet = SHEET.worksheet('salesPerDay').get_all_values()
     available_manufactured_volume = [int(value) for value in SHEET.worksheet('availableManufacturedVolume').get_all_values()[-1]]
+    available_finished_stock_units = [int(value) for value in SHEET.worksheet('AvailableStockUnits').get_all_values()[-1]]
     
      # Last 10 days sales
     last_ten_rows_sales = sales_per_day_worksheet[-10:]
@@ -262,6 +265,9 @@ def production_requirement():
 
     print('Last row in available Manufactured Volume')
     print(available_manufactured_volume)
+
+    print('Last row of available Stock Units sheet')
+    print(available_finished_stock_units)
     
     
 
