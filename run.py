@@ -269,7 +269,14 @@ def production_requirement():
     print('Last row of available Stock Units sheet')
     print(available_finished_stock_units)
     
+    # calculation for manufacturing requirement
+    sales_days_of_all_manufactured_stock = [int(a+b) / c for a, b, c in zip(available_finished_stock_units, available_manufactured_volume, average_sales_for_last_ten_days_sales)]
+
+    print('Sales days in available manufactured stock')
+    print(sales_days_of_all_manufactured_stock)
+
     
+
 
     
 
