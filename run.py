@@ -249,6 +249,7 @@ def production_requirement():
     sales_per_day_worksheet = SHEET.worksheet('salesPerDay').get_all_values()
     available_manufactured_volume = [int(value) for value in SHEET.worksheet('availableManufacturedVolume').get_all_values()[-1]]
     available_finished_stock_units = [int(value) for value in SHEET.worksheet('AvailableStockUnits').get_all_values()[-1]]
+    sales_days_of_all_stock = SHEET.worksheet('salesDaysOfAllManufacturedStock')
     
      # Last 10 days sales
     last_ten_rows_sales = sales_per_day_worksheet[-10:]
@@ -269,13 +270,15 @@ def production_requirement():
     print('Last row of available Stock Units sheet')
     print(available_finished_stock_units)
     
-    # calculation for manufacturing requirement
-    sales_days_of_all_manufactured_stock = [int(a+b) / c for a, b, c in zip(available_finished_stock_units, available_manufactured_volume, average_sales_for_last_ten_days_sales)]
+    # calculation for manufactured stock available in days
+    sales_days_of_all_manufactured_stock = [int((a+b) / c) for a, b, c in zip(available_finished_stock_units, available_manufactured_volume, average_sales_for_last_ten_days_sales)]
 
     print('Sales days in available manufactured stock')
     print(sales_days_of_all_manufactured_stock)
 
-    
+    print('Updating Sales Days of all Manufactured Stock Sheet......')
+    sales_days_of_all_stock.append_row(sales_days_of_all_manufactured_stock)
+    print('Sales days of all manufactured stock worksheet updated')
 
 
     
