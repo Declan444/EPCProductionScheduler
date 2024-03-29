@@ -245,7 +245,7 @@ def available_production_stock():
     print('AvailableManufacturedVolume worksheet updated successfully')
 
 
-def production_requirement():
+def total_manufactured_stock_in_days():
     sales_per_day_worksheet = SHEET.worksheet('salesPerDay').get_all_values()
     available_manufactured_volume = [int(value) for value in SHEET.worksheet('availableManufacturedVolume').get_all_values()[-1]]
     available_finished_stock_units = [int(value) for value in SHEET.worksheet('AvailableStockUnits').get_all_values()[-1]]
@@ -315,7 +315,7 @@ def main():
     
     days_of_available_stock()
     available_production_stock()
-    production_requirement()
+    total_manufactured_stock_in_days()
 
     #simple_graph(x,y)
     #https://code-maven.com/ansi-command-line-colors-with-python
