@@ -188,10 +188,11 @@ def days_of_available_stock():
     last_five_rows_sales = sales_per_day_worksheet[-5:]
     # Add the last five days sales together, column totals
     column_totals = [0] * len(last_five_rows_sales[0])
-
     for row in last_five_rows_sales:
         for i, value in enumerate(row):
             column_totals[i] += int(value)
+
+    [int(value) for value in SHEET.worksheet('AvailableStockUnits').get_all_values()[-1]]
     # Get the average for the last 5 days 
     average_sales_for_last_five_days_sales = [total / 5 for total in column_totals] 
 
@@ -281,6 +282,31 @@ def total_manufactured_stock_in_days():
     print('Sales days of all manufactured stock worksheet updated')
 
 
+
+
+def manufacturing_requirment():
+    reorder_quantity = [int(value) for value in SHEET.worksheet('salesDaysOfAllManufacturedStock').get_all_values()[-1]]
+    
+    column_total = [0] * len(reorder_quantity[0])
+    for row in reorder_quantity:
+        for i, value in enumerate(row):
+            column_total[i] 
+
+
+    for i in range(len(column_total)):
+        if column_total[i] <5:
+            column_total[i] += 10
+        
+    else:
+        column_total[i] += 0
+
+    
+
+    print('Manufacturing Stock Requirement:')
+    print(column_total)
+
+
+
     
 
 
@@ -316,6 +342,7 @@ def main():
     days_of_available_stock()
     available_production_stock()
     total_manufactured_stock_in_days()
+    
 
     #simple_graph(x,y)
     #https://code-maven.com/ansi-command-line-colors-with-python
