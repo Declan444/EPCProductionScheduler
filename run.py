@@ -287,10 +287,10 @@ def total_manufactured_stock_in_days():
 def manufacturing_requirment():
     reorder_quantity = [int(value) for value in SHEET.worksheet('salesDaysOfAllManufacturedStock').get_all_values()[-1]]
     
-    column_total = [0] * len(reorder_quantity[0])
-    for row in reorder_quantity:
-        for i, value in enumerate(row):
-            column_total[i] 
+    column_total = [0] * len(reorder_quantity)
+
+    for i, value in enumerate(reorder_quantity):
+        column_total[i] += value
 
 
     for i in range(len(column_total)):
@@ -304,6 +304,10 @@ def manufacturing_requirment():
 
     print('Manufacturing Stock Requirement:')
     print(column_total)
+    print('updating Manufacturing Stock Required Volume Sheet....')
+    SHEET.worksheet('ManufacturingStockRequiredVolume').append_row(column_total)
+    print('Manufactured Stock Required Sheet updated')
+
 
 
 
@@ -342,6 +346,7 @@ def main():
     days_of_available_stock()
     available_production_stock()
     total_manufactured_stock_in_days()
+    manufacturing_requirment()
     
 
     #simple_graph(x,y)
