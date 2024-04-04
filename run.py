@@ -1,4 +1,5 @@
 import gspread
+from tabulate import tabulate
 
 from google.oauth2.service_account import Credentials
 
@@ -39,6 +40,9 @@ def get_sales_figures():
         
         if validate_data(sales_numbers):
             print('Numbers Validated', sales_numbers)
+            headers = ['Line 1', 'Line2', 'Line 3', 'Line 4', 'Line 5']
+            sales_table = [sales_numbers]
+            print(tabulate(sales_table, headers, tablefmt='grid'))
             return sales_numbers
         else:
             print('Invalid data: Please try again.\n')
@@ -174,7 +178,7 @@ def available_stock():
     
 def days_of_available_stock(): 
     """
-    To calculate the amount of finished stock that is required to keep ahead of demand
+    To calculate the amount of finished stock that is required to keep ahead of demand. Available stock divided by the average of the last 5 days sales. 
     """
     available_stock_worksheet = SHEET.worksheet('AvailableStockUnits').get_all_values()
     sales_per_day_worksheet = SHEET.worksheet('salesPerDay').get_all_values()
@@ -286,6 +290,19 @@ def total_manufactured_stock_in_days():
 
 def manufacturing_requirment():
     reorder_quantity = [int(value) for value in SHEET.worksheet('salesDaysOfAllManufacturedStock').get_all_values()[-1]]
+    sales_per_day_worksheet = SHEET.worksheet('salesPerDay').get_all_values()
+    
+    
+     # Last 10 days sales
+    last_ten_rows_sales = sales_per_day_worksheet[-10:]
+    # Add the last ten days sales together, column totals
+    column_totals = [0] * len(last_ten_rows_sales[0])
+
+    for row in last_ten_rows_sales:
+        for i, value in enumerate(row):
+            column_totals[i] += int(value)
+    # Get the average for the last 10 days 
+    average_sales_for_last_ten_days_sales = [int(total / 10) for total in column_totals]
     
     column_total = [0] * len(reorder_quantity)
 
@@ -295,18 +312,22 @@ def manufacturing_requirment():
 
     for i in range(len(column_total)):
         if column_total[i] <5:
-            column_total[i] += 10
+            column_total[i] += 15 * average_sales_for_last_ten_days_sales[i]
+
         
-    else:
-        column_total[i] += 0
+        
+        else:
+            column_total[i] += 0
 
     
 
+    
     print('Manufacturing Stock Requirement:')
     print(column_total)
     print('updating Manufacturing Stock Required Volume Sheet....')
     SHEET.worksheet('ManufacturingStockRequiredVolume').append_row(column_total)
     print('Manufactured Stock Required Sheet updated')
+    
 
 
 
