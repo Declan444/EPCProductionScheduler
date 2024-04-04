@@ -40,9 +40,7 @@ def get_sales_figures():
         
         if validate_data(sales_numbers):
             print('Numbers Validated', sales_numbers)
-            headers = ['Line 1', 'Line2', 'Line 3', 'Line 4', 'Line 5']
-            sales_table = [sales_numbers]
-            print(tabulate(sales_table, headers, tablefmt='grid'))
+            
             return sales_numbers
         else:
             print('Invalid data: Please try again.\n')
@@ -93,7 +91,21 @@ def validate_data(values):
     except ValueError as e:
         print(f'Invalid data: {e}, please try again.\n')
         return False
-
+    
+# create a table for the three sets of input data above
+sales_data = get_sales_figures()
+line_output_data = get_lineOutput_figures()
+manufactured_volume_data = get_manufactured_figures()
+#create the header tags
+headers = ['Line1', 'Line2', 'Line3', 'Line4', 'Line5']
+#create the y axis labels
+table_data =[
+    ['Sales'] + sales_data, 
+    ['Line Output'] + line_output_data,  
+    ['Manufactured Volume'] + manufactured_volume_data
+    ]
+#print the table 
+print(tabulate(table_data, headers, tablefmt='grid'))
 
 
 def update_sales_worksheet(data):
