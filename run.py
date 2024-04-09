@@ -92,20 +92,7 @@ def validate_data(values):
         print(f'Invalid data: {e}, please try again.\n')
         return False
     
-# create a table for the three sets of input data above
-sales_data = get_sales_figures()
-line_output_data = get_lineOutput_figures()
-manufactured_volume_data = get_manufactured_figures()
-#create the header tags
-headers = ['Line1', 'Line2', 'Line3', 'Line4', 'Line5']
-#create the y axis labels
-table_data =[
-    ['Sales'] + sales_data, 
-    ['Line Output'] + line_output_data,  
-    ['Manufactured Volume'] + manufactured_volume_data
-    ]
-#print the table 
-print(tabulate(table_data, headers, tablefmt='grid'))
+
 
 
 def update_sales_worksheet(data):
@@ -301,7 +288,7 @@ def total_manufactured_stock_in_days():
 
 
 def manufacturing_requirment():
-    reorder_quantity = [int(value) for value in SHEET.worksheet('salesDaysOfAllManufacturedStock').get_all_values()[-1]]
+    total_manufactured_stock = [int(value) for value in SHEET.worksheet('salesDaysOfAllManufacturedStock').get_all_values()[-1]]
     sales_per_day_worksheet = SHEET.worksheet('salesPerDay').get_all_values()
     
     
@@ -316,20 +303,20 @@ def manufacturing_requirment():
     # Get the average for the last 10 days 
     average_sales_for_last_ten_days_sales = [int(total / 10) for total in column_totals]
     
-    column_total = [0] * len(reorder_quantity)
+    column_total = [0] * len(total_manufactured_stock)
 
-    for i, value in enumerate(reorder_quantity):
+    for i, value in enumerate(total_manufactured_stock):
         column_total[i] += value
 
 
     for i in range(len(column_total)):
-        if column_total[i] <5:
+        if column_total[i] <15:
             column_total[i] += 15 * average_sales_for_last_ten_days_sales[i]
 
         
         
         else:
-            column_total[i] += 0
+            column_total[i] = 0
 
     
 
@@ -339,33 +326,85 @@ def manufacturing_requirment():
     print('updating Manufacturing Stock Required Volume Sheet....')
     SHEET.worksheet('ManufacturingStockRequiredVolume').append_row(column_total)
     print('Manufactured Stock Required Sheet updated')
+
+
+
+def dataTable():
+    #create a table for the three sets of input data above
+    sales_data = [int(value) for value in SHEET.worksheet('salesPerDay').get_all_values()[-1]]
+    line_output_data = [int(value) for value in SHEET.worksheet('lineOutput').get_all_values()[-1]]
+    manufactured_volume_data = [int(value) for value in SHEET.worksheet('manufacturedVolume').get_all_values()[-1]]
+    available_stock_data = [int(value) for value in SHEET.worksheet('AvailableStockDays').get_all_values()[-1]]
+    days_available_stock_data = [int(value) for value in SHEET.worksheet('AvailableStockUnits').get_all_values()[-1]]
+    available_production_stock_data = [int(value) for value in SHEET.worksheet('availableManufacturedVolume').get_all_values()[-1]]
+    days_manufactured_stock_data = [int(value) for value in SHEET.worksheet('salesDaysOfAllManufacturedStock').get_all_values()[-1]]
+    manufacturing_requirement_data = [int(value) for value in SHEET.worksheet('ManufacturingStockRequiredVolume').get_all_values()[-1]]
+    #create the header tags
+    headers = ['Line1', 'Line2', 'Line3', 'Line4', 'Line5']
+    #create the y axis labels
+    table_data =[
+        ['Sales'] + sales_data, 
+        ['Line Output'] + line_output_data,  
+
+        ['Manufactured Volume'] + manufactured_volume_data,
+        ['Available Stock'] + available_stock_data,
+        ['Days of Available Stock'] + days_available_stock_data,
+        ['Available Production Stock'] + available_production_stock_data,
+        ['Days of Manufactured Stock'] + days_manufactured_stock_data,
+        ['Manufacturing Requirement'] + manufacturing_requirement_data
+        ]
+    #print the table 
+    print(tabulate(table_data, headers, tablefmt='grid')) 
+
     
+def production_requirement_graph():
+    # data is the output data from days_of_available stock
+    data = SHEET.worksheet('AvailableStockUnits').get_all_values()[-1]
 
+    data = [int(value) for value in data]
+    #find the max data in the list
+    max_value = max(data)
 
+    increment = max_value / 25
 
+    longest_label_length = len('days')
+    #empty array
+    output_lines = []
+    #for loop
+    for idx, count in enumerate(data):
+        #work out the bar chart
+        bar_chunks, remainder = divmod(int(count * 8 / increment), 8)
 
-    
+        #create the bar
+        bar = '█' * bar_chunks
 
+    #give the remainder if the bar is not a full increment
+        if remainder > 0:
+            bar += chr(ord('█') + (8 - remainder))
 
-    
-    
+    #use if the bar is empty
+        bar = bar or '▏'
+        #label for lines
+        output_lines.append(f'Production line{idx+1} ▏ {count:#4d} {bar}')
 
+    #label for y-axis
+    output_lines.append(f'{"Available Stock".rjust(longest_label_length)}')
 
+    # write the output lines to a text file so will work when deployed to heroku
+    with open('graph_output.txt', 'w', encoding='utf-8') as file:
+        for line in output_lines:
+            file.write(line + '\n')
 
-
-
-
-
-    
+    #read and print the file so it shows when deployed
+    with open('graph_output.txt', 'r', encoding='utf-8') as file:
+        print(file.read())
 
 
 def main():
-    
     data = get_sales_figures()
     sales_data = [int(num) for num in data]
     update_sales_worksheet(sales_data)
-    input('Press enter to continue....\n')
-
+    
     lineData = get_lineOutput_figures()
     line_data = [int(num) for num in lineData]
     update_line_worksheet(line_data)
@@ -375,63 +414,27 @@ def main():
     update_manufacturing_worksheet(manufactured_data)
 
     available_stock()
-    
     days_of_available_stock()
     available_production_stock()
     total_manufactured_stock_in_days()
     manufacturing_requirment()
+    dataTable()
+    production_requirement_graph()
     
-
+if __name__ == "__main__":
     #simple_graph(x,y)
     #https://code-maven.com/ansi-command-line-colors-with-python
 
-text = 'Welcome to the EPC Production Schedule \n'
+    text = 'Welcome to the EPC Production Schedule \n'
+
+    main()
 
 
 
-formatted_text = f'{bigger}{bold}{red}{underline}{text}{reset}'
-print(formatted_text)
-print(white)
 
-input('Press enter to continue...')
-main()
 
-# data is the output data from days_of_available stock
-data = days_of_available_stock()
-#find the max data in the list
-max_value = max(data)
 
-increment = max_value / 25
 
-longest_label_length = len('days')
-#empty array
-output_lines = []
-#for loop
-for idx, count in enumerate(data):
-    #work out the bar chart
-    bar_chunks, remainder = divmod(int(count * 8 / increment), 8)
 
-    #create the bar
-    bar = '█' * bar_chunks
 
-   #give the remainder if the bar is not a full increment
-    if remainder > 0:
-        bar += chr(ord('█') + (8 - remainder))
-
-   #use if the bar is empty
-    bar = bar or '▏'
-    #label for lines
-    output_lines.append(f'Production line{idx+1} ▏ {count:#4d} {bar}')
-
-#label for y-axis
-output_lines.append(f'{"Days of Available Stock".rjust(longest_label_length)}')
-
-# write the output lines to a text file so will work when deployed to heroku
-with open('graph_output.txt', 'w', encoding='utf-8') as file:
-    for line in output_lines:
-        file.write(line + '\n')
-
-#read and print the file so it shows when deployed
-with open('graph_output.txt', 'r', encoding='utf-8') as file:
-    print(file.read())
 
