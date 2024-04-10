@@ -31,7 +31,7 @@ reset = '\033[0m'
 def get_sales_figures():
     """function to get sales data for the salesPerDay sheet """
     while True:
-        print('Please enter sales per day for each line.')
+        print('Please enter sales per day for each production line.')
         print('Sales figures should be entered as 5 numbers, separated by commas.\n')
     
         
@@ -39,7 +39,7 @@ def get_sales_figures():
         sales_numbers = sales_data.split(',')
         
         if validate_data(sales_numbers):
-            print('Numbers Validated', sales_numbers)
+            #print('Numbers Validated', sales_numbers)
             
             return sales_numbers
         else:
@@ -52,14 +52,14 @@ def get_lineOutput_figures():
         print('Line Output figures should be entered as 5 numbers, separated by commas.\n')
     
     
-        line_output_data = input('Enter your data here:\n')
+        line_output_data = input(f'{yellow}𝐸𝑛𝑡𝑒𝑟 𝑦𝑜𝑢𝑟 𝑙𝑖𝑛𝑒 𝑜𝑢𝑡𝑝𝑢𝑡 𝑑𝑎𝑡𝑎 ℎ𝑒𝑟𝑒:{white}\n')
         output_numbers = line_output_data.split(',')
         # To check the validate function against the data
         if validate_data(output_numbers):
-            print('Numbers Validated', output_numbers)
+            #print('Numbers Validated', output_numbers)
             return output_numbers
         else:
-            print('Invalid data: Please try again.\n')
+            print(f'{red}Invalid data: Please try again.{white}\n')
 
 def get_manufactured_figures():
     """function to get the manufactured volume data for the manufacturedVolume sheet """
@@ -68,14 +68,14 @@ def get_manufactured_figures():
         print('Manufactured Volume figures should be entered as 5 numbers, separated by commas. If nothing was manufactured, enter zero.\n')
     
     
-        manufactured_volume_data = input('Enter your data here:\n')
+        manufactured_volume_data = input(f'{yellow}𝐸𝑛𝑡𝑒𝑟 𝑦𝑜𝑢𝑟 𝑚𝑎𝑛𝑢𝑓𝑎𝑐𝑡𝑢𝑟𝑖𝑛𝑔 𝑑𝑎𝑡𝑎 ℎ𝑒𝑟𝑒:{white}\n')
         volume_numbers = manufactured_volume_data.split(',')
         
         if validate_data(volume_numbers):
-            print('Numbers Validated', volume_numbers)
+            #print('Numbers Validated', volume_numbers)
             return volume_numbers
         else:
-            print('Invalid data: Please try again.\n')
+            print(f'{red}Invalid data: Please try again.{white}\n')
                   
 
 def validate_data(values):
@@ -85,11 +85,11 @@ def validate_data(values):
     try:
         if len(values) != 5 or not all(value.isdigit() for value in values):
             raise ValueError(
-                f'Please enter 5 whole numbers separated by commas, you entered {values}'
+                f'{red}Please enter 5 whole numbers separated by commas, you entered:{white} {values}'
             )
         return True
     except ValueError as e:
-        print(f'Invalid data: {e}, please try again.\n')
+        print(f'{red}Invalid data: {e}, please try again.{white}\n')
         return False
     
 
@@ -99,40 +99,40 @@ def update_sales_worksheet(data):
     """
     Function to update the sales worksheet. Have just copied this for the line and production worksheet
     """
-    print('Updating sales worksheet....\n')
+    #print('Updating sales worksheet....\n')
     if len(data) ==5 and all(isinstance(num, int) for num in data):
         sales_worksheet = SHEET.worksheet('salesPerDay')
         sales_worksheet.append_row(data)
-        print('Sales worksheet updated successfully\n')
+        print(f'{green}Sales worksheet updated successfully{white}\n')
     else:
-        print('Invalid data format: Unable to update the sales worksheet.\n')
+        print(f'{red}Invalid data format: Unable to update the sales worksheet.{white}\n')
 
 
 def update_line_worksheet(data):
-    print('Updating line output worksheet....\n')
+    #print('Updating line output worksheet....\n')
     if len(data) ==5 and all(isinstance(num, int) for num in data):
         line_output_worksheet = SHEET.worksheet('lineOutput')
         line_output_worksheet.append_row(data)
-        print('Line Output worksheet updated successfully\n')
+        print(f'{green}Line Output worksheet updated successfully{white}\n')
     else:
-        print('Invalid data format: Unable to update the line Output worksheet.\n')
+        print(f'{red}Invalid data format: Unable to update the line Output worksheet.{white}\n')
     
 
 def update_manufacturing_worksheet(data):
-    print('Updating manufactured volume worksheet....\n')
+    #print('Updating manufactured volume worksheet....\n')
     if len(data) ==5 and all(isinstance(num, int) for num in data):
         manufactured_worksheet = SHEET.worksheet('manufacturedVolume')
         manufactured_worksheet.append_row(data)
-        print('Manufactured Volume worksheet updated successfully\n')
+        print(f'{green}Manufactured Volume worksheet updated successfully{white}\n')
     else:
-        print('Invalid data format: Unable to update the Manufactured Volume worksheet.\n')
+        print(f'{red}Invalid data format: Unable to update the Manufactured Volume worksheet.{white}\n')
 
 
 def available_stock():
     """
     Function to get the lineOutput data and add it to the last line of the available stock data and subtract the sales data to give an updated available stock data. This gives me available stock to work with and an accumulated number.
     """
-    print('Calculating available stock...\n')
+    #print('Calculating available stock...\n')
 
     line_output_worksheet = SHEET.worksheet('lineOutput')
     available_stock_worksheet = SHEET.worksheet('AvailableStockUnits')
@@ -169,10 +169,10 @@ def available_stock():
 
        
         available_stock_worksheet.append_row(new_row_values)
-        print('Available Stock updated successfully\n')
-        print(new_row_values)
+        print(f'{green}Available Stock updated successfully{white}\n')
+        #print(new_row_values)
     else:
-        print('Not enough data in the "lineOutput" sheet.')
+        print(f'{red}Not enough data in the "lineOutput" sheet.{white}')
    
     
 def days_of_available_stock(): 
@@ -202,16 +202,16 @@ def days_of_available_stock():
     # Get the number of days stock available
     days_of_available_stock = [round(last_line_available_stock[i] / average_sales_for_last_five_days_sales[i]) for i in range(len(last_line_available_stock))]   
 
-    print('Updating Available Stock Days worksheet....\n')
+    #print('Updating Available Stock Days worksheet....\n')
     # Update the Available Stock Days worksheet    
     stock_days_on_hand_worksheet.append_row(days_of_available_stock)
-    print('Available Stock Days worksheet updated successfully\n')
+    print(f'{green}Available Stock Days worksheet updated successfully{white}\n')
     
     
-    print(green)
-    print('Number of days available stock:')
-    print(white)
-    print(days_of_available_stock)
+    #print(green)
+    #print('Number of days available stock:')
+    #print(white)
+    #print(days_of_available_stock)
     return days_of_available_stock
 
 
@@ -222,8 +222,8 @@ def available_production_stock():
     lineOuput_stock = SHEET.worksheet('lineOutput').get_all_values()
     #get the last row from the line output sheet
     lineOutput_numbers = [int(num) for num in lineOuput_stock[-1]]
-    print('LineOutput Last Row Numbers:')
-    print(lineOutput_numbers)
+    #print('LineOutput Last Row Numbers:')
+    #print(lineOutput_numbers)
 
     #Get the last 2 rows from this sheet 
     manufactured_stock_last_two_rows = [list(map(int, row)) for row in manufactured_stock[-2:]]
@@ -231,22 +231,22 @@ def available_production_stock():
     
     #get the accumulated number of the last two rows of the manufactured stock
     accumulated_manufactured_stock = [sum(values) for values in zip(*manufactured_stock_last_two_rows)]
-    print('Available Manufactured Stock:')
-    print(accumulated_manufactured_stock)
+    #print('Available Manufactured Stock:')
+    #print(accumulated_manufactured_stock)
 
     #Calculate available production stock. Accumulated stock minus line output stock
 
     available_manufactured_stock = [a - b for a, b in zip(accumulated_manufactured_stock, lineOutput_numbers)]
-    print('Available Manufactured Stock minus lineOutput numbers:')
-    print(available_manufactured_stock)
+    #print('Available Manufactured Stock minus lineOutput numbers:')
+    #print(available_manufactured_stock)
     
 
-    print('Updating AvailableManufacturedVolume worksheet.....')
+    #print('Updating AvailableManufacturedVolume worksheet.....')
     available_manufactured_numbers = SHEET.worksheet('availableManufacturedVolume')
     available_manufactured_numbers.append_row(available_manufactured_stock)
 
 
-    print('AvailableManufacturedVolume worksheet updated successfully')
+    print(f'{green}AvailableManufacturedVolume worksheet updated successfully{white}\n')
 
 
 def total_manufactured_stock_in_days():
@@ -265,24 +265,24 @@ def total_manufactured_stock_in_days():
             column_totals[i] += int(value)
     # Get the average for the last 10 days 
     average_sales_for_last_ten_days_sales = [int(total / 10) for total in column_totals] 
-    print('Sales in last 10 rows from the sales sheet')
-    print(average_sales_for_last_ten_days_sales)
+    #print('Sales in last 10 rows from the sales sheet')
+    #print(average_sales_for_last_ten_days_sales)
 
-    print('Last row in available Manufactured Volume')
-    print(available_manufactured_volume)
+    #print('Last row in available Manufactured Volume')
+    #print(available_manufactured_volume)
 
-    print('Last row of available Stock Units sheet')
-    print(available_finished_stock_units)
+    #print('Last row of available Stock Units sheet')
+    #print(available_finished_stock_units)
     
     # calculation for manufactured stock available in days
     sales_days_of_all_manufactured_stock = [int((a+b) / c) for a, b, c in zip(available_finished_stock_units, available_manufactured_volume, average_sales_for_last_ten_days_sales)]
 
-    print('Sales days in available manufactured stock')
-    print(sales_days_of_all_manufactured_stock)
+    #print('Sales days in available manufactured stock')
+    #print(sales_days_of_all_manufactured_stock)
 
-    print('Updating Sales Days of all Manufactured Stock Sheet......')
+    #print('Updating Sales Days of all Manufactured Stock Sheet......')
     sales_days_of_all_stock.append_row(sales_days_of_all_manufactured_stock)
-    print('Sales days of all manufactured stock worksheet updated')
+    print(f'{green}Sales days of all manufactured stock worksheet updated successfully{white}\n')
 
 
 
@@ -321,11 +321,11 @@ def manufacturing_requirment():
     
 
     
-    print('Manufacturing Stock Requirement:')
-    print(column_total)
-    print('updating Manufacturing Stock Required Volume Sheet....')
+    #print('Manufacturing Stock Requirement:')
+    #print(column_total)
+    #print('updating Manufacturing Stock Required Volume Sheet....')
     SHEET.worksheet('ManufacturingStockRequiredVolume').append_row(column_total)
-    print('Manufactured Stock Required Sheet updated')
+    print(f'{green}Manufactured Stock Required Sheet updated successfully{white}\n')
 
 
 
