@@ -331,6 +331,9 @@ def manufacturing_requirment():
 
 def dataTable():
     #create a table for the three sets of input data above
+
+    print(f'{red}{underline}{bold}Ｍａｎｕｆａｃｔｕｒｉｎｇ Ｄａｔａ Ｔａｂｌｅ{reset}\n')
+
     sales_data = [int(value) for value in SHEET.worksheet('salesPerDay').get_all_values()[-1]]
     line_output_data = [int(value) for value in SHEET.worksheet('lineOutput').get_all_values()[-1]]
     manufactured_volume_data = [int(value) for value in SHEET.worksheet('manufacturedVolume').get_all_values()[-1]]
@@ -340,24 +343,25 @@ def dataTable():
     days_manufactured_stock_data = [int(value) for value in SHEET.worksheet('salesDaysOfAllManufacturedStock').get_all_values()[-1]]
     manufacturing_requirement_data = [int(value) for value in SHEET.worksheet('ManufacturingStockRequiredVolume').get_all_values()[-1]]
     #create the header tags
-    headers = ['Line1', 'Line2', 'Line3', 'Line4', 'Line5']
+    headers = [f'{yellow}{bold}Line1{reset}', f'{yellow}{bold}Line2{reset}', f'{yellow}{bold}Line3{reset}', f'{yellow}{bold}Line4{reset}', f'{yellow}{bold}Line5{reset}']
     #create the y axis labels
     table_data =[
-        ['Sales'] + sales_data, 
-        ['Line Output'] + line_output_data,  
-
-        ['Manufactured Volume'] + manufactured_volume_data,
-        ['Available Stock'] + available_stock_data,
-        ['Days of Available Stock'] + days_available_stock_data,
-        ['Available Production Stock'] + available_production_stock_data,
-        ['Days of Manufactured Stock'] + days_manufactured_stock_data,
-        ['Manufacturing Requirement'] + manufacturing_requirement_data
+        [f'{yellow}{bold}Sales{reset}'] + sales_data, 
+        [f'{yellow}{bold}Line Output{reset}'] + line_output_data,  
+        [f'{yellow}{bold}Manufactured Volume{reset}'] + manufactured_volume_data,
+        [f'{yellow}{bold}Available Stock{reset}'] + available_stock_data,
+        [f'{yellow}{bold}Days of Available Stock{reset}'] + days_available_stock_data,
+        [f'{yellow}{bold}Available Production Stock{reset}'] + available_production_stock_data,
+        [f'{yellow}{bold}Days of Manufactured Stock{reset}'] + days_manufactured_stock_data,
+        [f'{yellow}{bold}Manufacturing Requirement{reset}'] + manufacturing_requirement_data
         ]
     #print the table 
     print(tabulate(table_data, headers, tablefmt='grid')) 
-
+    print()
+    print()
     
 def production_requirement_graph():
+    print(f'{red}{bold}{underline}Ａｖａｉｌａｂｌｅ Ｓｔｏｃｋ Ｇｒａｐｈ{reset}\n')
     # data is the output data from days_of_available stock
     data = SHEET.worksheet('AvailableStockUnits').get_all_values()[-1]
 
@@ -385,10 +389,11 @@ def production_requirement_graph():
     #use if the bar is empty
         bar = bar or '▏'
         #label for lines
-        output_lines.append(f'Production line{idx+1} ▏ {count:#4d} {bar}')
+        output_lines.append(f'{yellow}{bold}{underline}Production line  {idx+1}{reset} ▏ {count:#4d} {bar}')
 
     #label for y-axis
-    output_lines.append(f'{"Available Stock".rjust(longest_label_length)}')
+    print()
+    #output_lines.append(f'{red}{bold}{underline}{"Available Stock".rjust(longest_label_length)}{reset}')
 
     # write the output lines to a text file so will work when deployed to heroku
     with open('graph_output.txt', 'w', encoding='utf-8') as file:
