@@ -35,7 +35,7 @@ def get_sales_figures():
         print('Sales figures should be entered as 5 numbers, separated by commas.\n')
     
         
-        sales_data = input(f'{yellow}Enter your data here:{white}\n')
+        sales_data = input(f'{yellow}𝐸𝑛𝑡𝑒𝑟 𝑦𝑜𝑢𝑟 𝑠𝑎𝑙𝑒𝑠 𝑑𝑎𝑡𝑎 ℎ𝑒𝑟𝑒:{white}\n')
         sales_numbers = sales_data.split(',')
         
         if validate_data(sales_numbers):
@@ -401,8 +401,8 @@ def production_requirement_graph():
 
 
 def main():
-
-    print(f'{red}{bold}{bigger}EPC Production Planner.{white}\n')
+    #https://fsymbols.com/generators/smallcaps/
+    print(f'{red}{bold}{bigger}ＥＰＣ Ｐｒｏｄｕｃｔｉｏｎ Ｓｃｈｅｄｕｌｅｒ.{white}\n')
 
 
     data = get_sales_figures()
