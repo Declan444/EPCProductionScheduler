@@ -34,8 +34,8 @@ def get_sales_figures():
         print('Please enter sales per day for each line.')
         print('Sales figures should be entered as 5 numbers, separated by commas.\n')
     
-    
-        sales_data = input('Enter your data here:\n')
+        
+        sales_data = input(f'{yellow}Enter your data here:{white}\n')
         sales_numbers = sales_data.split(',')
         
         if validate_data(sales_numbers):
@@ -43,7 +43,7 @@ def get_sales_figures():
             
             return sales_numbers
         else:
-            print('Invalid data: Please try again.\n')
+            print(f'{red}Invalid data: Please try again.{white}\n')
 
 def get_lineOutput_figures():
     """function to get the unit output data for the lineOutput sheet """
@@ -334,8 +334,8 @@ def dataTable():
     sales_data = [int(value) for value in SHEET.worksheet('salesPerDay').get_all_values()[-1]]
     line_output_data = [int(value) for value in SHEET.worksheet('lineOutput').get_all_values()[-1]]
     manufactured_volume_data = [int(value) for value in SHEET.worksheet('manufacturedVolume').get_all_values()[-1]]
-    available_stock_data = [int(value) for value in SHEET.worksheet('AvailableStockDays').get_all_values()[-1]]
-    days_available_stock_data = [int(value) for value in SHEET.worksheet('AvailableStockUnits').get_all_values()[-1]]
+    available_stock_data = [int(value) for value in SHEET.worksheet('AvailableStockUnits').get_all_values()[-1]]
+    days_available_stock_data = [int(value) for value in SHEET.worksheet('AvailableStockDays').get_all_values()[-1]]
     available_production_stock_data = [int(value) for value in SHEET.worksheet('availableManufacturedVolume').get_all_values()[-1]]
     days_manufactured_stock_data = [int(value) for value in SHEET.worksheet('salesDaysOfAllManufacturedStock').get_all_values()[-1]]
     manufacturing_requirement_data = [int(value) for value in SHEET.worksheet('ManufacturingStockRequiredVolume').get_all_values()[-1]]
@@ -401,6 +401,10 @@ def production_requirement_graph():
 
 
 def main():
+
+    print(f'{red}{bold}{bigger}EPC Production Planner.{white}\n')
+
+
     data = get_sales_figures()
     sales_data = [int(num) for num in data]
     update_sales_worksheet(sales_data)
@@ -425,7 +429,7 @@ if __name__ == "__main__":
     #simple_graph(x,y)
     #https://code-maven.com/ansi-command-line-colors-with-python
 
-    text = 'Welcome to the EPC Production Schedule \n'
+    
 
     main()
 
