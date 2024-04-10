@@ -13,6 +13,24 @@ This caused me no end of trouble when I ran a factory as your sales per unit is 
 
 ## Reminders
 
+Deployment
+Deploying to Heroku
+Code Institute Python Essentials Template was used for this project so the python code can be viewed in a terminal in a browser:
+
+Google Heroku and open website, log in to Heroku or create a new account
+On the dashboard click "New" and select "Create new app"
+Enter unique app name and select region
+Click "Create app"
+On the next page find "Settings" tab and locate "Config Vars"
+Click "Reveal Config Vars" and add "PORT" as a key and with value "8000", click "Add"
+Scroll down to "Buildpack" and click "Add", select "Python" first
+Repeat step 7. to add "Node.js", making sure "Python" is first on the list
+Scroll to the top and select "Deploy" tab
+Select GitHub as deployment method and search for your repository, once found click "Connect"
+Scroll down and choose between "Enable Automatic Deploys" so the code is updated every time it is pushed to Github or "Manual Deploy"
+Deployed site accesible through this link Dragons
+
+
 - Your code must be placed in the `run.py` file
 - Your dependencies must be placed in the `requirements.txt` file
 - Do not edit any of the other files or your code may not deploy properly

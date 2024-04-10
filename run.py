@@ -267,7 +267,7 @@ def manufacturing_requirment():
     for i, value in enumerate(total_manufactured_stock):
         column_total[i] += value
     for i in range(len(column_total)):
-        if column_total[i] < 15:
+        if column_total[i] < 5:
             column_total[i] += 15 * average_sales_for_last_ten_days_sales[i]
         else:
             column_total[i] = 0
