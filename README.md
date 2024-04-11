@@ -29,15 +29,12 @@ Repeat step 7. to add "Node.js", making sure "Python" is first on the list
 Scroll to the top and select "Deploy" tab
 Select GitHub as deployment method and search for your repository, once found click "Connect"
 Scroll down and choose between "Enable Automatic Deploys" so the code is updated every time it is pushed to Github or "Manual Deploy"
-Deployed site accesible through this link Dragons
+Deployed site accesible (https://epcproductionscheduler-056411610085.herokuapp.com/)
 
 
-- Your code must be placed in the `run.py` file
-- Your dependencies must be placed in the `requirements.txt` file
-- Do not edit any of the other files or your code may not deploy properly
 
 ## Testing
-
+I have tested the program on my own system and some others with no issues. My mentor has also run the program on his system with no issues.
 ![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/e6b47ea6-ed33-425c-af74-266715df397c)
 
 
