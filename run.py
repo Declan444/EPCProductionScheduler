@@ -171,14 +171,13 @@ def available_stock():
     if last_line_output_row:
         last_line_output_values = [int(num) for num in last_line_output_row]
         # To get the last row from the "AvailableStockUnits" worksheet
-        last_available_stock_row = available_stock_worksheet.get_all_values()
-        [-1]
+        last_available_stock_row = available_stock_worksheet.get_all_values()[-1]
 
         # When there is data in the last row of the sheet
         if last_available_stock_row:
             last_available_stock_values = [
-                int(num) if num.isdigit() else 0
-                for num in last_available_stock_row
+                int(value) if isinstance(value, str) and value else 0
+                for value in last_available_stock_row
             ]
             new_row_values = [
                 str(output + stock)
