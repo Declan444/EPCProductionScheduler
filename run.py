@@ -107,8 +107,7 @@ def validate_data(values):
 
 def update_sales_worksheet(data):
     """
-    Function to update the sales worksheet. Have just copied
-    this for the line and production worksheet
+    Function to update the sales worksheet.
     """
     if len(data) == 5 and all(isinstance(num, int) for num in data):
         sales_worksheet = SHEET.worksheet("salesPerDay")
@@ -164,22 +163,22 @@ def available_stock():
     line_output_worksheet = SHEET.worksheet("lineOutput")
     available_stock_worksheet = SHEET.worksheet("AvailableStockUnits")
     sales_worksheet = SHEET.worksheet("salesPerDay")
+
     # To get the last row from the "lineOutput" worksheet
     last_line_output_row = line_output_worksheet.get_all_values()[-1]
 
-    # If there is data in the last row, convert the values to integers
+    # If there is data in the last row of "lineOutput"
     if last_line_output_row:
         last_line_output_values = [int(num) for num in last_line_output_row]
         # To get the last row from the "AvailableStockUnits" worksheet
-        last_available_stock_row = available_stock_worksheet.get_all_values()[
-            -1
-        ]
-        # When there is data in the last row of the sheet,
-        # then add the corresponding values
-        # w3schools.com for the use of zip() to accumulate number.
+        last_available_stock_row = available_stock_worksheet.get_all_values()
+        [-1]
+
+        # When there is data in the last row of the sheet
         if last_available_stock_row:
             last_available_stock_values = [
-                int(num) for num in last_available_stock_row
+                int(num) if num.isdigit() else 0
+                for num in last_available_stock_row
             ]
             new_row_values = [
                 str(output + stock)
@@ -191,16 +190,19 @@ def available_stock():
             # When there is no data in the "AvailableStockUnits" worksheet,
             # use the current line output values
             new_row_values = [str(num) for num in last_line_output_values]
+
         # To get the last row from the "salesPerDay" worksheet
         last_sales_row = sales_worksheet.get_all_values()[-1]
-        # If there is data in the last sales row, subtract the sales values
 
+        # If there is data in the last sales row, subtract the sales values
         if last_sales_row:
             last_sales_values = [int(num) for num in last_sales_row]
             new_row_values = [
                 str(int(stock) - sales)
                 for stock, sales in zip(new_row_values, last_sales_values)
             ]
+
+        # Append the calculated values as a new row to "AvailableStockUnits"
         available_stock_worksheet.append_row(new_row_values)
         print(f"{green}Available Stock updated successfully{white}\n")
     else:
@@ -213,6 +215,12 @@ def days_of_available_stock():
     that is required to keep ahead of demand.
     Available stock divided by the average of the last 5 days sales.
     """
+    sales_per_day_worksheet = SHEET.worksheet("salesPerDay")
+    sales_data = sales_per_day_worksheet.get_all_values()
+    if len(sales_data) < 5:
+        print(f"{red}Error: There are fewer than 5 lines of data in the "
+              f"'salesPerDay' sheet. Please update salesPerDay sheet{white}\n")
+        return
     available_stock_worksheet = SHEET.worksheet(
         "AvailableStockUnits"
     ).get_all_values()
@@ -261,7 +269,7 @@ def available_production_stock():
     """
     function to calculate available production stock
     and update the worksheet. It adds the current days
-    manufactured stock to the previous days stock and 
+    manufactured stock to the previous days stock and
     subtracts the line output number.
     """
     # Get the manufacturedVolume sheet
@@ -296,6 +304,12 @@ def total_manufactured_stock_in_days():
     The number of available finished stock units plus the available
     manufactured volume divided by the average of the last 10 days sales
     """
+    sales_per_day_worksheet = SHEET.worksheet("salesPerDay")
+    sales_data = sales_per_day_worksheet.get_all_values()
+    if len(sales_data) < 10:
+        print(f"{red}Error: There are fewer than 10 lines of data in the "
+              f"'salesPerDay' sheet. Please update salesPerDay sheet{white}\n")
+        return
     sales_per_day_worksheet = SHEET.worksheet("salesPerDay").get_all_values()
     available_manufactured_volume = [
         int(value)
@@ -348,6 +362,14 @@ def manufacturing_requirment():
     average of last 10 days sales X 15. This will give a max of 20
     days stock. If the number is greater than 5 it recommends 0 production
     """
+    sales_per_day_worksheet = SHEET.worksheet("salesPerDay")
+    sales_data = sales_per_day_worksheet.get_all_values()
+
+    # Check if there are fewer than 10 lines of data in the "salesPerDay" sheet
+    if len(sales_data) < 10:
+        print(f"{red}Error: There are fewer than 10 lines of data in the "
+              f"'salesPerDay' sheet.{white}\n")
+        return
     total_manufactured_stock = [
         int(value)
         for value in SHEET.worksheet(
@@ -534,5 +556,5 @@ def main():
 
 
 if __name__ == "__main__":
-   
+
     main()
