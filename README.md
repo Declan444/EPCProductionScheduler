@@ -1,4 +1,4 @@
-EPC Manufacturing Planner
+### EPC Manufacturing Scheduler
 ![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/cbdeee66-2056-424e-b491-35b8ba56aecd)
 
 This project was based on the production requirement, particularly the manufacturing requirement that would be needed when running five filling lines. This is an area that I have lots of experience in and when building this program it was something that I would have liked to have when I was planning my production. The objective is to get three sets of input from the user, unit sales per line, the line output for each line and the amount of product for each line that was manufactured. Each of these figures are entered by the user on a daily basis. The data entered is validated before it is accepted to be uploaded to the google docs.  The program then takes this information and feeds to a google docs spreadsheet which is connected to the program, and a range of functions manipulate the entered data to populate a number of other sheets contained within the google docs. The google docs sheet contains sheets to catch the data that is generated in each of the functions by using the input data. The program works out the amount of available manufactured stock in units and the amount of manufactured stock in days, days being an average of the last 10 days sales, it works out the available stock in units and how that converts to sales days. It uses all of this information to suggest a manufacturing volume that needs to be manufactured to ensure that the manufactured stock meets the requirements of each line so that the lines can output finished commercial product. The program checks the data and when all of the manufactured stock is less than 5 days of sales, the program recommends the production of 15 days stock converted to units by multiplying by the average of the last 10 days of sales. This ensures that manufacturing is ahead of the demand. 
@@ -29,15 +29,12 @@ Repeat step 7. to add "Node.js", making sure "Python" is first on the list
 Scroll to the top and select "Deploy" tab
 Select GitHub as deployment method and search for your repository, once found click "Connect"
 Scroll down and choose between "Enable Automatic Deploys" so the code is updated every time it is pushed to Github or "Manual Deploy"
-Deployed site accesible through this link Dragons
+Deployed site accesible (https://epcproductionscheduler-056411610085.herokuapp.com/)
 
 
-- Your code must be placed in the `run.py` file
-- Your dependencies must be placed in the `requirements.txt` file
-- Do not edit any of the other files or your code may not deploy properly
 
 ## Testing
-
+I have tested the program on my own system and some others with no issues. My mentor has also run the program on his system with no issues.
 ![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/e6b47ea6-ed33-425c-af74-266715df397c)
 
 
