@@ -166,6 +166,7 @@ def available_stock():
     sales_worksheet = SHEET.worksheet("salesPerDay")
     # To get the last row from the "lineOutput" worksheet
     last_line_output_row = line_output_worksheet.get_all_values()[-1]
+
     # If there is data in the last row, convert the values to integers
     if last_line_output_row:
         last_line_output_values = [int(num) for num in last_line_output_row]
@@ -193,6 +194,7 @@ def available_stock():
         # To get the last row from the "salesPerDay" worksheet
         last_sales_row = sales_worksheet.get_all_values()[-1]
         # If there is data in the last sales row, subtract the sales values
+
         if last_sales_row:
             last_sales_values = [int(num) for num in last_sales_row]
             new_row_values = [
@@ -258,7 +260,9 @@ def days_of_available_stock():
 def available_production_stock():
     """
     function to calculate available production stock
-    and update the worksheet
+    and update the worksheet. It adds the current days
+    manufactured stock to the previous days stock and 
+    subtracts the line output number.
     """
     # Get the manufacturedVolume sheet
     manufactured_stock = SHEET.worksheet("manufacturedVolume").get_all_values()
@@ -289,6 +293,8 @@ def available_production_stock():
 def total_manufactured_stock_in_days():
     """
     Function to calculate the total amount of manufactured stock in days
+    The number of available finished stock units plus the available
+    manufactured volume divided by the average of the last 10 days sales
     """
     sales_per_day_worksheet = SHEET.worksheet("salesPerDay").get_all_values()
     available_manufactured_volume = [
@@ -335,7 +341,12 @@ def total_manufactured_stock_in_days():
 
 def manufacturing_requirment():
     """
-    Function to calculate the manufacturing reequirement
+    Function to calculate the manufacturing reequirement. It takes
+    the number of available finished stock units plus the abailable
+    manufactured volume divided by the average of the last 10 days
+    sales. If this number is less than 5 it recommends production of
+    average of last 10 days sales X 15. This will give a max of 20
+    days stock. If the number is greater than 5 it recommends 0 production
     """
     total_manufactured_stock = [
         int(value)
@@ -523,6 +534,5 @@ def main():
 
 
 if __name__ == "__main__":
-    # simple_graph(x,y)
-    # https://code-maven.com/ansi-command-line-colors-with-python
+   
     main()
