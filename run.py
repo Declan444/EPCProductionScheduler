@@ -170,25 +170,27 @@ def available_stock():
     # If there is data in the last row of "lineOutput"
     if last_line_output_row:
         last_line_output_values = [int(num) for num in last_line_output_row]
+
         # To get the last row from the "AvailableStockUnits" worksheet
         last_available_stock_row = available_stock_worksheet.get_all_values()[-1]
 
         # When there is data in the last row of the sheet
         if last_available_stock_row:
             last_available_stock_values = [
-                int(value) if isinstance(value, str) and value else 0
+                int(value) if value.isdigit() else 0
                 for value in last_available_stock_row
             ]
-            new_row_values = [
-                str(output + stock)
-                for output, stock in zip(
-                    last_line_output_values, last_available_stock_values
-                )
-            ]
         else:
-            # When there is no data in the "AvailableStockUnits" worksheet,
+            # When there is no numerical data in the last row of "AvailableStockUnits" worksheet,
             # use the current line output values
-            new_row_values = [str(num) for num in last_line_output_values]
+            last_available_stock_values = last_line_output_values
+
+        new_row_values = [
+            str(output + stock)
+            for output, stock in zip(
+                last_line_output_values, last_available_stock_values
+            )
+        ]
 
         # To get the last row from the "salesPerDay" worksheet
         last_sales_row = sales_worksheet.get_all_values()[-1]
