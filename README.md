@@ -40,7 +40,8 @@ Deployed site accesible (https://epcproductionscheduler-056411610085.herokuapp.c
 
 ## Testing
 
-I have tested the program on my own system and some others with no issues. My mentor has also run the program on his system with no issues.
+I have tested the program on my own system and some others with no issues. My mentor has also run the program on his system with no issues. Wjen running the program, if less than 10 rows of data was contained in the sales sheet, the program gave an error. This was fixed by including error handling messages to ask the user to input the appropriate data in the spreadsheet. As available stock uses two lines data, this also gave an error if there was no data in the sheet. As the first line of data in the sheet are the sheet headings, it was a persistant error. This was fixed by checking only if a numerical value was present, and if not then to use the line output value as the first line of data for the available stock sheet. This solved this error.
+
 ![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/e6b47ea6-ed33-425c-af74-266715df397c)
 
 
@@ -50,8 +51,9 @@ This program has so many future features and developments that could be added. I
 
 ## Error Handling
 
-The sales input sheet needs to be pre-populated with 10 days sales to enable the program to get its average. 
+The sales input sheet needs to be pre-populated with 10 days sales to enable the program to get its average as three functions call for a 5 day average and a 10 day average of sales. 
 The available stock units sheet needs to be populated with one line of data. 
+Error messages have been included within the functions that require an average sales number to handle these errors.
 
 ## Acknowledgements and Credits
 
