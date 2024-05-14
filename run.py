@@ -343,7 +343,7 @@ def manufacturing_requirment():
     if len(sales_data) < 10:
         print(
             f"{red}Error: There are fewer than 10 lines of data in the "
-            f"'salesPerDay' sheet.{white}\n"
+            f"'salesPerDay' sheet. Please update salesPerDay sheet{white}\n"
         )
         return
     total_manufactured_stock = [
@@ -491,7 +491,6 @@ def main():
     """
     Main function to contain all functions
     """
-    # https://fsymbols.com/generators/smallcaps/
     print(
         f"{red}{bold}{bigger}ＥＰＣ Ｐｒｏｄｕｃｔｉｏｎ Ｓｃｈｅｄｕｌｅｒ.{white}\n"
     )
