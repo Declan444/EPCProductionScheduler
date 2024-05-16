@@ -25,6 +25,26 @@ background_color = "\033[105m"
 clearscreen = "\033[H\033[J]"
 bigger = "\033[4;1m"
 reset = "\033[0m"
+print(
+        f"{red}{bold}{bigger}ＥＰＣ Ｐｒｏｄｕｃｔｉｏｎ Ｓｃｈｅｄｕｌｅｒ.{white}\n"
+    )
+
+print('This program is designed to be used by a manufacturing\n'
+      'planner to predict the amount of production that needs to be\n'
+      'carried out.\n' 
+      'The program takes the sales figures, line output figures\n'
+      'and the manufactured product figures and uses these figures\n'
+      'to calculate the amount of manufacturing that needs to be\n'
+      'carried out to enable the company to stay ahead of demand. The\n'
+      'manufacturing demand is calculated as the average of the last\n'
+      '15 days of sales.\n\n'
+      f"{red}{bold}IMPORTANT{white}"'\n'
+      'The salesPerDay sheet in the google docs needs to have\n'
+      'a minimum of' f"{red} 10 days sales results entered.{white}"'\n\n'
+      'The program will asks for the following information.\n\n'
+      '1. Your Daily Sales figures\n'
+      '2. Your Line Output figures\n'
+      '3. Your Manufactured Product figures\n')
 
 
 def get_sales_figures():
@@ -491,10 +511,6 @@ def main():
     """
     Main function to contain all functions
     """
-    print(
-        f"{red}{bold}{bigger}ＥＰＣ Ｐｒｏｄｕｃｔｉｏｎ Ｓｃｈｅｄｕｌｅｒ.{white}\n"
-    )
-
     data = get_sales_figures()
     sales_data = [int(num) for num in data]
     update_sales_worksheet(sales_data)
