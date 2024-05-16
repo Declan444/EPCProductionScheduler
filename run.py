@@ -46,6 +46,17 @@ print('This program is designed to be used by a manufacturing\n'
       '2. Your Line Output figures\n'
       '3. Your Manufactured Product figures\n')
 
+def check_sales_sheet():
+    while True:
+        response = input("Have you filled the sales sheet with 10 rows of data? (y/n): ").strip().lower()
+        if response == 'y':
+            print("Great! Let's continue.\n")
+            return True
+        elif response == 'n':
+            print("Please fill the sales sheet with 10 rows of data.\n")
+        else:
+            print("Invalid input. Please type 'y' or 'n'.\n")
+
 
 def get_sales_figures():
     """
@@ -279,13 +290,17 @@ def available_production_stock():
     manufactured_stock = SHEET.worksheet("manufacturedVolume").get_all_values()
     lineOuput_stock = SHEET.worksheet("lineOutput").get_all_values()
     # get the last row from the line output sheet
-    lineOutput_numbers = [int(num) for num in lineOuput_stock[-1]]
+    if len(manufactured_stock) < 2:
+        print("Warning: Only one row of data found for manufactured stock. Accumulated stock will be based on this row only.")
+        accumulated_manufactured_stock = [int(num) for num in manufactured_stock[-1] if num.isdigit()]
+    else:
+        lineOutput_numbers = [int(num) for num in lineOuput_stock[-1]]
     # Get the last 2 rows from this sheet
-    manufactured_stock_last_two_rows = [
-        list(map(int, row)) for row in manufactured_stock[-2:]
+        manufactured_stock_last_two_rows = [
+            list(map(int, row)) for row in manufactured_stock[-2:]
     ]
     # get the accumulated number of the last two rows of the manufactured stock
-    accumulated_manufactured_stock = [
+        accumulated_manufactured_stock = [
         sum(values) for values in zip(*manufactured_stock_last_two_rows)
     ]
     # Calculate available production stock.
@@ -296,6 +311,7 @@ def available_production_stock():
     available_manufactured_numbers = SHEET.worksheet("availableManufacturedVolume")
     available_manufactured_numbers.append_row(available_manufactured_stock)
     print(f"{green}ManufacturedVolume worksheet updated successfully{white}\n")
+
 
 
 def total_manufactured_stock_in_days():
@@ -476,7 +492,10 @@ def available_stock_graph():
     data = [int(value) for value in data]
     # find the max data in the list
     max_value = max(data)
-    increment = max_value / 25
+    if max_value == 0:
+        increment = 1
+    else:
+        increment = max_value / 25
     # empty array
     output_lines = []
     # for loop
@@ -506,11 +525,15 @@ def available_stock_graph():
     with open("graph_output.txt", "r", encoding="utf-8") as file:
         print(file.read())
 
+        print('this is the end of the program\n')
+
+
 
 def main():
     """
     Main function to contain all functions
     """
+    check_sales_sheet()
     data = get_sales_figures()
     sales_data = [int(num) for num in data]
     update_sales_worksheet(sales_data)
@@ -529,6 +552,7 @@ def main():
     manufacturing_requirment()
     dataTable()
     available_stock_graph()
+
 
 
 if __name__ == "__main__":
