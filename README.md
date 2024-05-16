@@ -52,7 +52,7 @@ This program has so many future features and developments that could be added. I
 
 The sales input sheet needs to be pre-populated with 10 days sales to enable the program to get its average as three functions call for a 5 day average and a 10 day average of sales. 
 The available stock units sheet needs to be populated with one line of data. 
-Error messages have been included within the functions that require an average sales number to handle these errors.
+Error handling messages have been included within the functions that prompt the user to populate the sales sheet in the event that there is inadequate data available.
 
 ## Acknowledgements and Credits
 
