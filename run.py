@@ -526,10 +526,6 @@ def available_stock_graph():
     with open("graph_output.txt", "r", encoding="utf-8") as file:
         print(file.read())
 
-        print('Thank you for your time and effort. Hope this helps\n'
-              'your production scheduling. See you tomorrow\n')
-
-
 
 def main():
     """
@@ -556,7 +552,18 @@ def main():
     available_stock_graph()
 
 
-
 if __name__ == "__main__":
+    while True:
+        main()
+        while True:
+            run_again = input("Do you want to run the program again? (y/n): ").strip().lower()
+            if run_again in ['y', 'n']:
+                break
+            else:
+                print("Invalid input. Please enter 'y' or 'n'.")
+        if run_again != 'y':
+            print(f'{yellow}{bold}Thank you for your time and effort. Hope this helps\n'
+                  f'your production scheduling. See you tomorrow{white}\n')
+            break
 
-    main()
+    
