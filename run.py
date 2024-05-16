@@ -48,7 +48,8 @@ print('This program is designed to be used by a manufacturing\n'
 
 def check_sales_sheet():
     while True:
-        response = input("Have you filled the sales sheet with 10 rows of data? (y/n): ").strip().lower()
+        response = input("Have you filled the salesPerDay sheet"
+                         " with 10 rows of data? (y/n): ").strip().lower()
         if response == 'y':
             print("Great! Let's continue.\n")
             return True
@@ -525,7 +526,8 @@ def available_stock_graph():
     with open("graph_output.txt", "r", encoding="utf-8") as file:
         print(file.read())
 
-        print('this is the end of the program\n')
+        print('Thank you for your time and effort. Hope this helps\n'
+              'your production scheduling. See you tomorrow\n')
 
 
 
