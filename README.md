@@ -21,26 +21,26 @@ The data is then presented in a table format and a graph format for ease of view
 
 ## Deployment
 
-Deploying to Heroku
 Code Institute Python Essentials Template was used for this project so the python code can be viewed in a terminal in a browser:
-Google Heroku and open website, log in to Heroku or create a new account
-On the dashboard click "New" and select "Create new app"
-Enter unique app name and select region
-Click "Create app"
-On the next page find "Settings" tab and locate "Config Vars"
-Click "Reveal Config Vars" and add "PORT" as a key and with value "8000", click "Add"
-Scroll down to "Buildpack" and click "Add", select "Python" first
-Repeat step 7. to add "Node.js", making sure "Python" is first on the list
-Scroll to the top and select "Deploy" tab
-Select GitHub as deployment method and search for your repository, once found click "Connect"
-Scroll down and choose between "Enable Automatic Deploys" so the code is updated every time it is pushed to Github or "Manual Deploy"
+1. Google Heroku and open website, log in to Heroku or create a new account
+2. On the dashboard click "New" and select "Create new app"
+3. Enter unique app name and select region
+4. Click "Create app"
+5. On the next page find "Settings" tab and locate "Config Vars"
+6. Click "Reveal Config Vars" and add "PORT" as a key and with value "8000", click "Add"
+7. Scroll down to "Buildpack" and click "Add", select "Python" first
+8. Repeat step 7. to add "Node.js", making sure "Python" is first on the list
+9. Scroll to the top and select "Deploy" tab
+10. Select GitHub as deployment method and search for your repository, once found click "Connect"
+11. Scroll down and choose between "Enable Automatic Deploys" so the code is updated every time it is pushed to Github or "Manual Deploy"
 Deployed site accesible (https://epcproductionscheduler-056411610085.herokuapp.com/)
 
 
 
 ## Testing
 
-I have tested the program on my own system and some others with no issues. My mentor has also run the program on his system with no issues.
+I have tested the program on my own system and some others with no issues. My mentor has also run the program on his system with no issues. When running the program, if less than 10 rows of data was contained in the sales sheet, the program gave an error. This was fixed by including error handling messages to ask the user to input the appropriate data in the spreadsheet. As available stock uses two lines data, this also gave an error if there was no data in the sheet. As the first line of data in the sheet are the sheet headings, it was a persistant error. This was fixed by checking only if a numerical value was present, and if not then to use the line output value as the first line of data for the available stock sheet. This solved this error.
+
 ![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/e6b47ea6-ed33-425c-af74-266715df397c)
 
 
@@ -50,8 +50,9 @@ This program has so many future features and developments that could be added. I
 
 ## Error Handling
 
-The sales input sheet needs to be pre-populated with 10 days sales to enable the program to get its average. 
+The sales input sheet needs to be pre-populated with 10 days sales to enable the program to get its average as three functions call for a 5 day average and a 10 day average of sales. 
 The available stock units sheet needs to be populated with one line of data. 
+Error handling messages have been included within the functions that prompt the user to populate the sales sheet in the event that there is inadequate data available.
 
 ## Acknowledgements and Credits
 
