@@ -435,7 +435,7 @@ def dataTable():
         [f"{yellow}{bold}Days of Available Stock{reset}"] + days_available_stock_data,
         [f"{yellow}{bold}Available Production Stock{reset}"]
         + available_production_stock_data,
-        [f"{yellow}{bold}Days of Manufactured Stock{reset}"]
+        [f"{yellow}{bold}Days of Total Stock{reset}"]
         + days_manufactured_stock_data,
         [f"{yellow}{bold}Manufacturing Requirement{reset}"]
         + manufacturing_requirement_data,
