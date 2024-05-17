@@ -132,7 +132,7 @@ def validate_data(values):
         return False
 
 
-def update_sales_worksheet(data):
+def update_salesPerDay_worksheet(data):
     """
     Function to update the sales worksheet.
     """
@@ -147,7 +147,7 @@ def update_sales_worksheet(data):
         )
 
 
-def update_line_worksheet(data):
+def update_lineOutput_worksheet(data):
     """
     function to update the line output worksheet
     """
@@ -162,7 +162,7 @@ def update_line_worksheet(data):
         )
 
 
-def update_manufacturing_worksheet(data):
+def update_manufacturedVolume_worksheet(data):
     """
     function to update the manufacturing worksheet
     """
@@ -177,7 +177,7 @@ def update_manufacturing_worksheet(data):
         )
 
 
-def available_stock():
+def AvailableStockUnits():
     """
     Function to get the lineOutput data and add it to the last line
     of the available stock data and subtract the sales data to give
@@ -235,7 +235,7 @@ def available_stock():
         print(f'{red}Not enough data in the "lineOutput" sheet.{white}')
 
 
-def days_of_available_stock():
+def AvailableStockDays():
     """
     Function to calculate the amount of finished stock
     that is required to keep ahead of demand.
@@ -280,7 +280,7 @@ def days_of_available_stock():
     return days_of_available_stock
 
 
-def available_production_stock():
+def availableManufacturedVolume():
     """
     function to calculate available production stock
     and update the worksheet. It adds the current days
@@ -315,7 +315,7 @@ def available_production_stock():
 
 
 
-def total_manufactured_stock_in_days():
+def salesDaysOfAllManufacturedStock():
     """
     Function to calculate the total amount of manufactured stock in days
     The number of available finished stock units plus the available
@@ -364,7 +364,7 @@ def total_manufactured_stock_in_days():
     )
 
 
-def manufacturing_requirment():
+def ManufacturingStockRequiredVolume():
     """
     Function to calculate the manufacturing reequirement. It takes
     the number of available finished stock units plus the abailable
@@ -468,8 +468,8 @@ def dataTable():
         [f"{yellow}{bold}Sales{reset}"] + sales_data,
         [f"{yellow}{bold}Line Output{reset}"] + line_output_data,
         [f"{yellow}{bold}Manufactured Volume{reset}"] + manufactured_volume_data,
-        [f"{yellow}{bold}Available Stock{reset}"] + available_stock_data,
-        [f"{yellow}{bold}Days of Available Stock{reset}"] + days_available_stock_data,
+        [f"{yellow}{bold}Available Finished Stock{reset}"] + available_stock_data,
+        [f"{yellow}{bold}Days of Available Finished Stock{reset}"] + days_available_stock_data,
         [f"{yellow}{bold}Available Production Stock{reset}"]
         + available_production_stock_data,
         [f"{yellow}{bold}Days of Total Stock{reset}"]
@@ -534,20 +534,20 @@ def main():
     check_sales_sheet()
     data = get_sales_figures()
     sales_data = [int(num) for num in data]
-    update_sales_worksheet(sales_data)
+    update_salesPerDay_worksheet(sales_data)
     lineData = get_lineOutput_figures()
     line_data = [int(num) for num in lineData]
-    update_line_worksheet(line_data)
+    update_lineOutput_worksheet(line_data)
 
     manufacturedData = get_manufactured_figures()
     manufactured_data = [int(num) for num in manufacturedData]
-    update_manufacturing_worksheet(manufactured_data)
+    update_manufacturedVolume_worksheet(manufactured_data)
 
-    available_stock()
-    days_of_available_stock()
-    available_production_stock()
-    total_manufactured_stock_in_days()
-    manufacturing_requirment()
+    AvailableStockUnits()
+    AvailableStockDays()
+    availableManufacturedVolume()
+    salesDaysOfAllManufacturedStock()
+    ManufacturingStockRequiredVolume()
     dataTable()
     available_stock_graph()
 
