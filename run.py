@@ -220,7 +220,7 @@ def AvailableStockUnits():
         # To get the last row from the "salesPerDay" worksheet
         last_sales_row = sales_worksheet.get_all_values()[-1]
 
-        # If there is data in the last sales row, subtract the sales values
+        # If there is data in the last sales row, subtract the sales values from the available stock
         if last_sales_row:
             last_sales_values = [int(num) for num in last_sales_row]
             new_row_values = [
@@ -232,7 +232,7 @@ def AvailableStockUnits():
         available_stock_worksheet.append_row(new_row_values)
         print(f"{green}Available Stock updated successfully{white}\n")
     else:
-        print(f'{red}Not enough data in the "lineOutput" sheet.{white}')
+        print(f'{red}Not enough data in the "salesPerDay" sheet.{white}')
 
 
 def AvailableStockDays():
@@ -279,14 +279,70 @@ def AvailableStockDays():
     print(f"{green}Available Stock Days worksheet updated successfully{white}\n")
     return days_of_available_stock
 
-
-def availableManufacturedVolume():
+def availableManufacuredVolume():
     """
+    function to calculate available production stock
+    and update the worksheet. It adds the current days
+    manufactured stock to the previous days available stock and
+    subtracts the line output number.
+    """
+    line_output_worksheet = SHEET.worksheet("lineOutput")
+    available_stock_worksheet = SHEET.worksheet("availableManufacturedVolume")
+    manufactured_worksheet = SHEET.worksheet("manufacturedVolume")
+
+    # To get the last row from the "manufacturedVolume" worksheet
+    last_line_manufactured_row = manufactured_worksheet.get_all_values()[-1]
+
+    # If there is data in the last row of "manufacturedVolume"
+    if last_line_manufactured_row:
+        last_line_manufactured_values = [int(num) for num in last_line_manufactured_row]
+
+        # To get the last row from the "AvailableStockUnits" worksheet
+        last_available_stock_row = available_stock_worksheet.get_all_values()[-1]
+
+        # When there is data in the last row of the sheet
+        if last_available_stock_row:
+            last_available_stock_values = [
+                int(value) if value.isdigit() else 0
+                for value in last_available_stock_row
+            ]
+        else:
+            # When there is no numerical data in the last row of
+            # "availableManufacturedVolume" worksheet,
+            # use the current manufacturedVolume values
+            last_available_stock_values = last_line_manufactured_values
+
+        new_row_values = [
+            str(manufactured + stock)
+            for manufactured, stock in zip(
+                last_line_manufactured_values, last_available_stock_values
+            )
+        ]
+
+        # To get the last row from the "lineOutput" worksheet
+        last_lineOutput_row = line_output_worksheet.get_all_values()[-1]
+
+        # If there is data in the last lineOutput row, subtract the lineOutput values
+        if last_lineOutput_row:
+            last_lineOutput_values = [int(num) for num in last_lineOutput_row]
+            new_row_values = [
+                str(int(stock) - lineOutput)
+                for stock, lineOutput in zip(new_row_values, last_lineOutput_values)
+            ]
+
+        # Append the calculated values as a new row to "availableManufactured Volume worksheet"
+        available_stock_worksheet.append_row(new_row_values)
+        print(f"{green}Available Manufactured Stock updated successfully{white}\n")
+    else:
+        print(f'{red}Not enough data in the "lineOutput" sheet.{white}')
+"""
+def availableManufacturedVolume():
+    
     function to calculate available production stock
     and update the worksheet. It adds the current days
     manufactured stock to the previous days stock and
     subtracts the line output number.
-    """
+    
     # Get the manufacturedVolume sheet
     manufactured_stock = SHEET.worksheet("manufacturedVolume").get_all_values()
     lineOuput_stock = SHEET.worksheet("lineOutput").get_all_values()
@@ -313,7 +369,7 @@ def availableManufacturedVolume():
     available_manufactured_numbers.append_row(available_manufactured_stock)
     print(f"{green}ManufacturedVolume worksheet updated successfully{white}\n")
 
-
+"""
 
 def salesDaysOfAllManufacturedStock():
     """
@@ -329,6 +385,7 @@ def salesDaysOfAllManufacturedStock():
             f"'salesPerDay' sheet. Please update salesPerDay sheet{white}\n"
         )
         return
+    
     sales_per_day_worksheet = SHEET.worksheet("salesPerDay").get_all_values()
     available_manufactured_volume = [
         int(value)
@@ -349,14 +406,17 @@ def salesDaysOfAllManufacturedStock():
     # Get the average for the last 10 days
     average_sales_for_last_ten_days_sales = [int(total / 10) for total in column_totals]
     # calculation for manufactured stock available in days
-    sales_days_of_all_manufactured_stock = [
-        int((a + b) / c)
-        for a, b, c in zip(
+    sales_days_of_all_manufactured_stock= []
+    for a, b, c in zip(
             available_finished_stock_units,
             available_manufactured_volume,
-            average_sales_for_last_ten_days_sales,
-        )
-    ]
+            average_sales_for_last_ten_days_sales):
+        # If no stock available
+        if a + b == 0:
+            sales_days_of_all_manufactured_stock.append(0)  
+        else:
+            sales_days_of_all_manufactured_stock.append(int((a + b) / c))
+    #]
     sales_days_of_all_stock.append_row(sales_days_of_all_manufactured_stock)
     print(
         f"{green}Sales days of all manufactured stock"
@@ -468,8 +528,8 @@ def dataTable():
         [f"{yellow}{bold}Sales{reset}"] + sales_data,
         [f"{yellow}{bold}Line Output{reset}"] + line_output_data,
         [f"{yellow}{bold}Manufactured Volume{reset}"] + manufactured_volume_data,
-        [f"{yellow}{bold}Available Finished Stock{reset}"] + available_stock_data,
-        [f"{yellow}{bold}Days of Available Finished Stock{reset}"] + days_available_stock_data,
+        [f"{yellow}{bold}Finished Stock{reset}"] + available_stock_data,
+        [f"{yellow}{bold}Days of Finished Stock{reset}"] + days_available_stock_data,
         [f"{yellow}{bold}Available Production Stock{reset}"]
         + available_production_stock_data,
         [f"{yellow}{bold}Days of Total Stock{reset}"]
@@ -545,7 +605,7 @@ def main():
 
     AvailableStockUnits()
     AvailableStockDays()
-    availableManufacturedVolume()
+    availableManufacuredVolume()
     salesDaysOfAllManufacturedStock()
     ManufacturingStockRequiredVolume()
     dataTable()
@@ -562,6 +622,7 @@ if __name__ == "__main__":
             else:
                 print("Invalid input. Please enter 'y' or 'n'.")
         if run_again != 'y':
+            '\n'
             print(f'{yellow}{bold}Thank you for your time and effort. Hope this helps\n'
                   f'your production scheduling. See you tomorrow{white}\n')
             break
