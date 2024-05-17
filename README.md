@@ -3,8 +3,19 @@
 
 ![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/cbdeee66-2056-424e-b491-35b8ba56aecd)
 
-This project was based on the production requirement, particularly the manufacturing requirement that would be needed when running five filling lines. This is an area that I have lots of experience in and when building this program it was something that I would have liked to have when I was planning my production. The objective is to get three sets of input from the user, unit sales per line, the line output for each line and the amount of product for each line that was manufactured. Each of these figures are entered by the user on a daily basis. The data entered is validated before it is accepted to be uploaded to google docs.  The program then takes this information and feeds to a google docs spreadsheet which is connected to the program, and a range of functions manipulate the entered data to populate a number of other sheets contained within the google docs. The google docs sheet contains sheets to catch the data that is generated in each of the functions by using the input data. The program works out the amount of available manufactured stock in units and the amount of manufactured stock in days, days being an average of the last 10 days sales, it works out the available stock in units and  converts the data to sales days. It uses all of this information to suggest a manufacturing volume that needs to be manufactured to ensure that the manufactured stock meets the requirements of each line so that the lines can output finished commercial product. The program checks the data and when all of the manufactured stock is less than 5 days of sales, the program recommends the production of 15 days stock converted to units by multiplying by the average of the last 10 days of sales. This ensures that manufacturing is ahead of the demand. 
+This project was based on the production requirement, particularly the manufacturing requirement that would be needed when running five filling lines. This is an area that I have lots of experience in and when building this program it was something that I would have liked to have when I was planning my production. The objective or the program is to is to get three sets of input from the user, 
+1.  unit sales per line,
+2.  the line output for each line
+3.  the amount of product for each line that was manufactured.
 
+Each of these figures are entered by the user on a daily basis. The data entered is validated before it is accepted to be uploaded to google docs.  
+The program then takes this information and feeds to a google docs spreadsheet which is connected to the program, and claculates the following:
+1.   Available Stock units - the amount of finished units i.e. post production line output
+2.   Available Stodk units in days - this is this unit figure divided by the average of 5 days sales
+3.  The available Manufactured Volume - this is the current days manufactured stock to the previous days available manufactured stock and     then subtracts the line output number.
+4.  Sales Day of all Manufactured Stock - this is a function to calculate the total amount of manufactured stock in days which is the         number of available finished stock units plus the available manufactured volume divided by the average of the last 10 days sales.
+5.  Manufacturing Stock Requirement Volume - this is a function to calculate the manufacturing reequirement. It takes the number of           available finished stock units plus the abailable manufactured volume divided by the average of the last 10 days sales. If this           number is less than 5 it recommends production of average of last 10 days sales X 15. This will give a max of 20 days stock. If the       number is greater than 5 it recommends 0 production.
+  
 This caused me no end of trouble when I ran a factory as your sales per unit is a number of points away  from manufacturing and this program allows the two to be connected through the calculations. 
 
 The data is then presented in a table format and a graph format for ease of viewing.
@@ -64,8 +75,11 @@ For the generation of the different fonts i used the link below:
 https://fsymbols.com/generators/smallcaps/
 I have used gspread, tabulate and google.oath.
 The program is linked to google docs which contains all the data.
-U used the learning from the link below to create the table using tabulate:
+I used the learning from the link below to create the table using tabulate:
 https://www.statology.org/create-table-in-python/
+I used w3schools for the use of zip https://www.w3schools.com/python/ref_func_zip.asp.
+I used w3schools for the use of range https://www.w3schools.com/python/ref_func_range.asp.
+I used https://alexwlchan.net/2018/ascii-bar-charts/ as my learning for building the bar chart.
 
 I tried so many ways to try to create a graph but as this had to be prompt based I had to settle on the method used which saves to the graph_output.text file and this is what worked with heroku.
 
