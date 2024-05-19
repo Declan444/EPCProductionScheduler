@@ -1,7 +1,8 @@
 ### EPC Manufacturing Scheduler
 (By Declan Lenahan)
 
-![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/e7ccf34f-7568-466d-85ac-013f67f987a6)
+![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/39ff2aa5-6c6f-42b8-8466-42aba9b5ec07)
+
 
 This project was based on the production requirement, particularly the manufacturing requirement that would be needed when running five filling lines. This is an area that I have lots of experience in and when building this program it was something that I would have liked to have when I was planning my production. The objective or the program is to is to get three sets of input from the user, 
 1.  unit sales per line,
