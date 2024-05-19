@@ -1,7 +1,7 @@
 ### EPC Manufacturing Scheduler
 (By Declan Lenahan)
 
-![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/cbdeee66-2056-424e-b491-35b8ba56aecd)
+![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/e7ccf34f-7568-466d-85ac-013f67f987a6)
 
 This project was based on the production requirement, particularly the manufacturing requirement that would be needed when running five filling lines. This is an area that I have lots of experience in and when building this program it was something that I would have liked to have when I was planning my production. The objective or the program is to is to get three sets of input from the user, 
 1.  unit sales per line,
@@ -16,7 +16,20 @@ The program then takes this information and feeds to a google docs spreadsheet w
 4.  Sales Day of all Manufactured Stock - this is a function to calculate the total amount of manufactured stock in days which is the         number of available finished stock units plus the available manufactured volume divided by the average of the last 10 days sales.
 5.  Manufacturing Stock Requirement Volume - this is a function to calculate the manufacturing reequirement. It takes the number of           available finished stock units plus the abailable manufactured volume divided by the average of the last 10 days sales. If this           number is less than 5 it recommends production of average of last 10 days sales X 15. This will give a max of 20 days stock. If the       number is greater than 5 it recommends 0 production.
   
-This caused me no end of trouble when I ran a factory as your sales per unit is a number of points away  from manufacturing and this program allows the two to be connected through the calculations. 
+This caused me no end of trouble when I ran a factory as your sales per unit is a number of points away  from manufacturing and this program allows the two to be connected through the calculations.
+
+As this program needs 10 days of sales data to be entered into the spreadsheet, I have set a function to ask the user if this is the case. I it is y, then the user can progress, if n then the user is requested to enter the data and presented with the same question. This ensures that 10 rows of data has been entered into the spreadsheet. I have also included error messages within the functions needing to use the sales data as a secondary safety measure to ensure that this has been done.
+
+![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/44a9b967-5676-40d8-86bf-6a7522462610)
+
+The user is then requested to enter the data for sales, line output and manufacturing output. They are instructed to enter 5 numbers separated by commas. This is the data that is entered onto the spreadsheet. If the data entered is not in this exact format then the program shows an error and asks the user to input the correct data.
+
+![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/cbdeee66-2056-424e-b491-35b8ba56aecd)
+
+I have included statements showing that each of the sheets have been updated successfully. Again if this did not happen a message to the user would be sent to say that it was unsucessful due to invalid format. In the real world, I would leave this out and the program would just go to the table and graph.
+
+![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/df0e9549-7697-44bb-bc19-3f35bcdbf36b)
+ 
 
 The data is then presented in a table format and a graph format for ease of viewing.
 
@@ -50,7 +63,34 @@ Deployed site accesible (https://epcproductionscheduler-056411610085.herokuapp.c
 
 ## Testing
 
-I have tested the program on my own system and some others with no issues. My mentor has also run the program on his system with no issues. When running the program, if less than 10 rows of data was contained in the sales sheet, the program gave an error. This was fixed by including error handling messages to ask the user to input the appropriate data in the spreadsheet. As available stock uses two lines data, this also gave an error if there was no data in the sheet. As the first line of data in the sheet are the sheet headings, it was a persistant error. This was fixed by checking only if a numerical value was present, and if not then to use the line output value as the first line of data for the available stock sheet. This solved this error.
+I have tested the program on my own system and some others with no issues. My mentor has also run the program on his system with no issues. When running the program, if less than 10 rows of data was contained in the sales sheet, the program gave an error. This was fixed by asking the user if 10 rows of data has been entered in the sales sheet and if not they are not allowed to continur. I havealso included an  error handling messages to ask the user to input the appropriate data in the spreadsheet within each of the functions that require the average sales number. 
+
+I have tested the program with zero data in all sheets except the sales sheet which again was causing errors but these are now fixed. 
+for a, b, c in zip(
+            available_finished_stock_units,
+            available_manufactured_volume,
+            average_sales_for_last_ten_days_sales):
+This zip code was causing a problem as if a or be were zero then to divide as zero by a number was causing an error. I fixed this with the following with he addition of the following 
+        if a + b == 0:
+            sales_days_of_all_manufactured_stock.append(0) 
+
+As the program looks for the last row of data, and in this case the last row could be the headings row which are non integers, this also was causing problems. To solve this I ensured that any data that was accepted had to be an integer.
+last_line_available_stock = [int(value) for value in last_line_available_stock]
+
+I used is isdigit() else 0 to ensure that if the row was empty that it was converted to an integer 0. This solved alot of errors that were caused when I ran an empty sheet.
+
+last_available_stock_row:
+            last_available_stock_values = [
+                int(value) if value.isdigit() else 0
+                for value in last_available_stock_row
+            ]
+        else:
+            # When there is no numerical data in the last row of
+            # "availableManufacturedVolume" worksheet,
+            # use the current manufacturedVolume values
+            last_available_stock_values = last_line_manufactured_values
+
+## Testing in linter
 
 ![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/e6b47ea6-ed33-425c-af74-266715df397c)
 
@@ -80,6 +120,7 @@ https://www.statology.org/create-table-in-python/
 I used w3schools for the use of zip https://www.w3schools.com/python/ref_func_zip.asp.
 I used w3schools for the use of range https://www.w3schools.com/python/ref_func_range.asp.
 I used https://alexwlchan.net/2018/ascii-bar-charts/ as my learning for building the bar chart.
+I used https://www.geeksforgeeks.org/enumerate-in-python/ to understand the enumerate function
 
 I tried so many ways to try to create a graph but as this had to be prompt based I had to settle on the method used which saves to the graph_output.text file and this is what worked with heroku.
 
