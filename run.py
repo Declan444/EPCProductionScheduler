@@ -38,7 +38,7 @@ print(
     "to calculate the amount of manufacturing that needs to be\n"
     "carried out to enable the company to stay ahead of demand. The\n"
     "manufacturing demand is calculated as the average of the last\n"
-    "15 days of sales.\n\n"
+    "10 days of sales.\n\n"
     f"{red}{bold}IMPORTANT{white}"
     "\n"
     "The salesPerDay sheet in the google docs needs to have\n"
