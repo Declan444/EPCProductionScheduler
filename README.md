@@ -41,8 +41,7 @@ The data is then presented in a table format and a graph format for ease of view
 
 ## Lucidchart
 
-![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/a1149479-7c93-41ef-840b-4eaf441b5b99)
-
+![Flowcharts](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/91bb00cd-2bda-4762-962d-9dc453da671d)
 
 ## Deployment
 
@@ -105,6 +104,10 @@ This program has so many future features and developments that could be added. I
 The sales input sheet needs to be pre-populated with 10 days sales to enable the program to get its average as three functions call for a 5 day average and a 10 day average of sales. 
 The available stock units sheet needs to be populated with one line of data. 
 Error handling messages have been included within the functions that prompt the user to populate the sales sheet in the event that there is inadequate data available.
+
+## Link to Google Sheets
+
+https://docs.google.com/spreadsheets/d/1QbLNmzxHJjRSDZsKfbWj7dfg46BbJ5_cJfqDzHWjsSI/edit#gid=1787962955
 
 ## Acknowledgements and Credits
 
