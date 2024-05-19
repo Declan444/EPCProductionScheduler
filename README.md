@@ -17,9 +17,9 @@ The program then takes this information and feeds to a google docs spreadsheet w
 4.  Sales Day of all Manufactured Stock - this is a function to calculate the total amount of manufactured stock in days which is the         number of available finished stock units plus the available manufactured volume divided by the average of the last 10 days sales.
 5.  Manufacturing Stock Requirement Volume - this is a function to calculate the manufacturing reequirement. It takes the number of           available finished stock units plus the abailable manufactured volume divided by the average of the last 10 days sales. If this           number is less than 5 it recommends production of average of last 10 days sales X 15. This will give a max of 20 days stock. If the       number is greater than 5 it recommends 0 production.
   
-This caused me no end of trouble when I ran a factory as your sales per unit is a number of points away  from manufacturing and this program allows the two to be connected through the calculations.
+This caused me no end of trouble when I ran a factory as your sales per unit is a number of points away  from manufacturing and this program allows the two to be connected through the calculations. With this I mean that sales would increase and the availabe stock would be in the warehouse but this would not filter down to the manufacturing floor and when it did, manufactuing were trying to catch up. This program, links the sales per day to the manufacturing requirement which is of vital importance when running a manufacturing and sales company.
 
-As this program needs 10 days of sales data to be entered into the spreadsheet, I have set a function to ask the user if this is the case. I it is y, then the user can progress, if n then the user is requested to enter the data and presented with the same question. This ensures that 10 rows of data has been entered into the spreadsheet. I have also included error messages within the functions needing to use the sales data as a secondary safety measure to ensure that this has been done.
+As this program needs 10 days of sales data to be entered into the spreadsheet, I have set a function to ask the user if this is the case. I it is y, then the user can progress, if n then the user is requested to enter the data into the spreadsheet and when done they can answer y and progress. This ensures that 10 rows of data has been entered into the spreadsheet. I have also included error messages within the functions needing to use the sales data as a secondary safety measure to ensure that this has been done.
 
 ![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/44a9b967-5676-40d8-86bf-6a7522462610)
 
@@ -63,14 +63,14 @@ Deployed site accesible (https://epcproductionscheduler-056411610085.herokuapp.c
 
 ## Testing
 
-I have tested the program on my own system and some others with no issues. My mentor has also run the program on his system with no issues. When running the program, if less than 10 rows of data was contained in the sales sheet, the program gave an error. This was fixed by asking the user if 10 rows of data has been entered in the sales sheet and if not they are not allowed to continur. I havealso included an  error handling messages to ask the user to input the appropriate data in the spreadsheet within each of the functions that require the average sales number. 
+I have tested the program on my own system and some others with no issues. My mentor has also run the program on his system with no issues. When running the program, if less than 10 rows of data was contained in the sales sheet, the program gave an error. This was fixed by asking the user if 10 rows of data has been entered in the sales sheet and if not, they are not allowed to continue. I have also included an  error handling messages to ask the user to input the appropriate data in the spreadsheet within each of the functions that require the average sales number. 
 
 I have tested the program with zero data in all sheets except the sales sheet which again was causing errors but these are now fixed. 
 for a, b, c in zip(
             available_finished_stock_units,
             available_manufactured_volume,
             average_sales_for_last_ten_days_sales):
-This zip code was causing a problem as if a or be were zero then to divide as zero by a number was causing an error. I fixed this with the following with he addition of the following 
+This zip code was causing a problem as if a or be were zero then to divide zero by a number was causing an error. I fixed this with the addition of the following 
         if a + b == 0:
             sales_days_of_all_manufactured_stock.append(0) 
 
