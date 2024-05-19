@@ -13,7 +13,7 @@ Each of these figures are entered by the user on a daily basis. The data entered
 The program then takes this information and feeds to a google docs spreadsheet which is connected to the program, and claculates the following:
 1.   Available Stock units - the amount of finished units i.e. post production line output
 2.   Available Stodk units in days - this is this unit figure divided by the average of 5 days sales
-3.  The available Manufactured Volume - this is the current days manufactured stock to the previous days available manufactured stock and     then subtracts the line output number.
+3.  The available Manufactured Volume - this is the current days manufactured stock added to the previous days available manufactured stock and     then subtracts the line output number.
 4.  Sales Day of all Manufactured Stock - this is a function to calculate the total amount of manufactured stock in days which is the         number of available finished stock units plus the available manufactured volume divided by the average of the last 10 days sales.
 5.  Manufacturing Stock Requirement Volume - this is a function to calculate the manufacturing reequirement. It takes the number of           available finished stock units plus the abailable manufactured volume divided by the average of the last 10 days sales. If this           number is less than 5 it recommends production of average of last 10 days sales X 15. This will give a max of 20 days stock. If the       number is greater than 5 it recommends 0 production.
   
