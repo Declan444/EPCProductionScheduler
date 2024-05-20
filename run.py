@@ -51,12 +51,13 @@ print(
     "3. Your Manufactured Product figures\n"
 )
 
+
 def check_sales_sheet():
     while True:
         response = (
             input(
                 "Have you filled the salesPerDay sheet"
-                " with at least 10 rows of integer data? (y/n): "
+                " with at least 10 rows of data? (y/n): "
             )
             .strip()
             .lower()
@@ -65,7 +66,10 @@ def check_sales_sheet():
             print("Great! Let's continue.\n")
             break
         elif response == "n":
-            print("Please fill the sales sheet with at least 10 rows of integer data.\n")
+            print(
+                "Please fill the sales sheet with at least"
+                " 10 rows of integer data.\n"
+            )
         else:
             print("Invalid input. Please type 'y' or 'n'.\n")
 
@@ -74,11 +78,12 @@ def validate_sales_data():
     while True:
         sales_per_day_worksheet = SHEET.worksheet("salesPerDay")
         sales_data = sales_per_day_worksheet.get_all_values()
-        
+
         if len(sales_data) < 10:
             print(
                 f"{red}Error: There are fewer than 10 lines of data in the "
-                f"'salesPerDay' sheet. Please update the salesPerDay sheet.{white}\n"
+                f"'salesPerDay' sheet. Please update"
+                f" the salesPerDay sheet.{white}\n"
             )
             check_sales_sheet()
             continue
@@ -90,15 +95,15 @@ def validate_sales_data():
             ]
         except ValueError:
             print(
-                f"{red}Error: Non-integer value found in the last 10 rows of the "
-                f"'salesPerDay' sheet. Please ensure all values are integers.{white}\n"
+                f"{red}Error: Non-integer value found in the last 10"
+                f"  rows of the 'salesPerDay' sheet."
+                f" Please ensure all values are integers.{white}\n"
             )
             check_sales_sheet()
             continue
-        
+
         return True
 
-    
 
 def get_sales_figures():
     """

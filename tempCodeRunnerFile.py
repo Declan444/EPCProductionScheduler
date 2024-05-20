@@ -1,2 +1,3 @@
- else:
-            print("Invalid input. Please type 'y' or 'n'.\n")
+
+    """
+    Function to calculate the total amount of man
