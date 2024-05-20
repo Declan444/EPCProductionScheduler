@@ -51,25 +51,54 @@ print(
     "3. Your Manufactured Product figures\n"
 )
 
-
 def check_sales_sheet():
     while True:
         response = (
             input(
                 "Have you filled the salesPerDay sheet"
-                " with 10 rows of data? (y/n): "
+                " with at least 10 rows of integer data? (y/n): "
             )
             .strip()
             .lower()
         )
         if response == "y":
             print("Great! Let's continue.\n")
-            return True
+            break
         elif response == "n":
-            print("Please fill the sales sheet with 10 rows of data.\n")
+            print("Please fill the sales sheet with at least 10 rows of integer data.\n")
         else:
             print("Invalid input. Please type 'y' or 'n'.\n")
 
+
+def validate_sales_data():
+    while True:
+        sales_per_day_worksheet = SHEET.worksheet("salesPerDay")
+        sales_data = sales_per_day_worksheet.get_all_values()
+        
+        if len(sales_data) < 10:
+            print(
+                f"{red}Error: There are fewer than 10 lines of data in the "
+                f"'salesPerDay' sheet. Please update the salesPerDay sheet.{white}\n"
+            )
+            check_sales_sheet()
+            continue
+
+        # Validate that the last 10 rows contain only integers
+        try:
+            last_ten_rows_sales = [
+                [int(value) for value in row] for row in sales_data[-10:]
+            ]
+        except ValueError:
+            print(
+                f"{red}Error: Non-integer value found in the last 10 rows of the "
+                f"'salesPerDay' sheet. Please ensure all values are integers.{white}\n"
+            )
+            check_sales_sheet()
+            continue
+        
+        return True
+
+    
 
 def get_sales_figures():
     """
@@ -631,6 +660,7 @@ def main():
     Main function to contain all functions
     """
     check_sales_sheet()
+    validate_sales_data()
     data = get_sales_figures()
     sales_data = [int(num) for num in data]
     update_salesPerDay_worksheet(sales_data)
