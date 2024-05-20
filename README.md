@@ -34,14 +34,16 @@ I have included statements showing that each of the sheets have been updated suc
 
 The data is then presented in a table format and a graph format for ease of viewing.
 
+![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/1ec86378-7a81-4cb9-8fd5-bf8f16b3e80f)
 
-![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/aededa87-c4d7-4954-9395-5f9bc91e5f5e)
+
 
 ![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/94a72ac9-3070-4114-8e5f-4f4fbfb2e13d)
 
 ## Lucidchart
 
-![Flowcharts](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/91bb00cd-2bda-4762-962d-9dc453da671d)
+![Flowcharts (2)](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/ca4aebe0-e412-4339-ba2e-dcea91d2c2d1)
+
 
 ## Deployment
 
