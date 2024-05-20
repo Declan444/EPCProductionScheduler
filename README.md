@@ -90,6 +90,8 @@ last_available_stock_row:
             # use the current manufacturedVolume values
             last_available_stock_values = last_line_manufactured_values
 
+As 3 of the functions needed a minimum of 10 rows of data and this was causing errors I decided to include a function check_sales_sheet to check if the data had been entered even if the user types y when asked. This function also checks if the data are integers and there is at least 10 rows.
+
 ## Testing in linter
 
 ![image](https://github.com/Declan444/EPCProductionScheduler/assets/119152450/e6b47ea6-ed33-425c-af74-266715df397c)
