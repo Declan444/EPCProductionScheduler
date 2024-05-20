@@ -90,7 +90,7 @@ last_available_stock_row:
             # use the current manufacturedVolume values
             last_available_stock_values = last_line_manufactured_values
 
-As 3 of the functions needed a minimum of 10 rows of data and this was causing errors I decided to include a function check_sales_sheet to check if the data had been entered even if the user types y when asked. This function also checks if the data are integers and there is at least 10 rows.
+As 3 of the functions needed a minimum of 10 rows of data and this was causing errors I decided to include a function validate_sales_data at the start of the program to check if the data had been entered even if the user types y when asked. This function also checks if the data are integers and there is at least 10 rows. This ensures from the start of the program that the data is in the sheet and correct. The funtion will not let the user progress unless all correct data is in the sheet.
 
 ## Testing in linter
 
@@ -106,6 +106,7 @@ This program has so many future features and developments that could be added. I
 The sales input sheet needs to be pre-populated with 10 days sales to enable the program to get its average as three functions call for a 5 day average and a 10 day average of sales. 
 The available stock units sheet needs to be populated with one line of data. 
 Error handling messages have been included within the functions that prompt the user to populate the sales sheet in the event that there is inadequate data available.
+The validate_sales_data also contains error handling messages to ensure that the correct data and quantity is in the salesPerDay sheet.
 
 ## Link to Google Sheets
 
